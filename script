@@ -1,0 +1,416 @@
+#######
+#######
+#######
+#######
+#######
+#######
+#######
+####### Time Series Model for S&P 500
+#######
+#######
+#######
+#######
+#######
+#######
+#######
+
+
+
+##
+####
+######
+#     LOADING DATA, PACKAGES
+######
+####
+##
+print("Time Series Model for S&P 500")
+# Add the directory path of data_1/data_master_1.csv file
+wd <- getwd()
+parent <- getwd()
+setwd(wd)
+print(parent)
+# Load the data file
+dataMaster <- read.csv(file.path(parent, "data_1/data_master_1.csv"))
+
+attach(dataMaster)
+
+
+
+
+# install.packages() the following packages, run this on the terminal
+
+# ggplot2
+# forecast
+# astsa
+# plotly 
+# ggfortify 
+# tseries 
+
+
+# install.packages("ggplot2")
+# install.packages("forecast")
+# install.packages("astsa")
+# install.packages("plotly")
+# install.packages("ggfortify")
+# install.packages("tseries")
+
+# load the packages
+require(ggplot2)
+require(forecast)
+require(astsa)
+require(plotly)
+require(ggfortify)
+require(tseries)
+
+# outputting work
+
+pdf("timeSeries_sp_500.pdf")
+
+
+###########################################################
+print(" ")
+print(" ")
+print(" ")
+###########################################################
+
+##
+####
+######
+#     TESTING that data loads properly
+######
+####
+##
+
+head(dataMaster)
+str(dataMaster)
+
+
+
+###########################################################
+print(" ")
+print(" ")
+print(" ")
+###########################################################
+
+##
+####
+######
+#     CREATING TIME-SERIES OBJECTS WITH FINANCIAL DATA 
+######
+####
+##
+
+
+sp_500 <- ts(dataMaster$sp_500, start=c(1995, 1), freq=12)
+
+
+###########################################################
+print(" ")
+print(" ")
+print(" ")
+###########################################################
+
+
+
+##
+####
+######
+#     TIME SERIES STUFF
+######
+####
+##
+
+sp_500
+sp500_TR <- ts(sp_500, start=c(1995, 1), end=c(2014, 12), freq=12)
+sp500_TR
+# First we plot the time series plot to get an understanding of the necessary modeling
+ts <- autoplot(sp_500, main = "Time Series Plot for S&P 500") + theme(panel.background = element_blank(),
+                                                                panel.grid.minor = element_blank(),
+                                                                axis.ticks  = element_blank(),
+                                                                axis.line   = element_line(colour=NA),
+                                                                axis.line.x = element_line(colour="grey80")) 
+ts
+ggplotly(ts)
+# ggplot2 for acf and pacf
+a <- autoplot(acf(sp_500, plot = FALSE), conf.int.fill = '#0000FF', conf.int.value = 0.8, conf.int.type = 'ma') + theme(panel.background = element_blank(),
+                                                                                                                       panel.grid.minor = element_blank(),
+                                                                                                                       axis.ticks  = element_blank(),
+                                                                                                                       axis.line   = element_line(colour=NA),
+                                                                                                                       axis.line.x = element_line(colour="grey80")) 
+b <- autoplot(pacf(sp_500, plot = FALSE), conf.int.fill = '#0000FF', conf.int.value = 0.8, conf.int.type = 'ma') + theme(panel.background = element_blank(),
+                                                                                                                         panel.grid.minor = element_blank(),
+                                                                                                                         axis.ticks  = element_blank(),
+                                                                                                                         axis.line   = element_line(colour=NA),
+                                                                                                                         axis.line.x = element_line(colour="grey80")) 
+multiplot(a, b, cols = 1) # Grabbed from: http://www.cookbook-r.com/Graphs/Multiple_graphs_on_one_page_(ggplot2)/
+  
+
+# Next we created some plots to get a "feel" for our data 
+# This next plot takes a closer look at the seasonal components of our time series
+sp <- ggseasonplot(sp_500,ylab="S&P Closing Values", xlab="Year", main="Seasonal plot: S&P Monthly Closing Values",
+           year.labels=TRUE, year.labels.left=TRUE, col=1:20, pch=19) + theme(panel.background = element_blank(),
+                                                                              panel.grid.minor = element_blank(),
+                                                                              axis.ticks  = element_blank(),
+                                                                              axis.line   = element_line(colour=NA),
+                                                                              axis.line.x = element_line(colour="grey80")) 
+sp
+ggplotly(sp)
+
+# There's not much seasonality for this time series so this plot doesn't give us much help but it can help 
+# for other time series objects with a lot of seasonality
+
+# SEASONAL DECOMPOSITION: following plot decomposes the time series into its seasonal, trend and irregular components!
+stl <- autoplot(stl(sp_500, s.window = "periodic"), main = "Decomposition for S&P 500") + theme(panel.background = element_blank(),
+                                                                                                panel.grid.minor = element_blank(),
+                                                                                                axis.ticks  = element_blank(),
+                                                                                                axis.line   = element_line(colour=NA),
+                                                                                                axis.line.x = element_line(colour="grey80")) 
+stl
+ggplotly(stl)
+# Notice that this plot is not stationary so an appropriate transformation must be made
+# The variability can not be seen at first glance but one the transformation is made, we can see if the model
+# is heteroskedastic
+diff <- diff(sp_500)
+
+# Since we took a difference we have to take it into consideration
+autoplot(diff, main = "Time series plot of first diff") + theme(panel.background = element_blank(),
+                                                                panel.grid.minor = element_blank(),
+                                                                axis.ticks  = element_blank(),
+                                                                axis.line   = element_line(colour=NA),
+                                                                axis.line.x = element_line(colour="grey80")) 
+
+# Once we plot the newly transformed data we see that it is now weakly stationary
+# Upon inspection of the ACF and PACF plot we can deduce the model we will be fitting will
+# be an MA model
+c <- autoplot(acf(diff, plot = FALSE), conf.int.fill = '#0000FF', conf.int.value = 0.8, conf.int.type = 'ma') + theme(panel.background = element_blank(),
+                                                                                                                      panel.grid.minor = element_blank(),
+                                                                                                                      axis.ticks  = element_blank(),
+                                                                                                                      axis.line   = element_line(colour=NA),
+                                                                                                                      axis.line.x = element_line(colour="grey80")) 
+d <- autoplot(pacf(diff, plot = FALSE), conf.int.fill = '#0000FF', conf.int.value = 0.8, conf.int.type = 'ma') + theme(panel.background = element_blank(),
+                                                                                                                       panel.grid.minor = element_blank(),
+                                                                                                                       axis.ticks  = element_blank(),
+                                                                                                                       axis.line   = element_line(colour=NA),
+                                                                                                                       axis.line.x = element_line(colour="grey80")) 
+multiplot(c, d, cols = 1) # Grabbed from: http://www.cookbook-r.com/Graphs/Multiple_graphs_on_one_page_(ggplot2)/
+
+# We used both the auto.arima and our own inspection of the acf and pacf plot to deduce that the best model was Arima(0,1,1)
+auto.arima(diff)
+
+# Fortunate for us the auto.arima function for the original data gives us the same function so we decided to leave it as such for 
+# simplicity's sake!
+auto.arima(sp_500)
+fit <- Arima(sp_500, order = c(0,1,1), include.drift = TRUE)
+fit
+# We can see the fitted values vs actual values!
+rvf <- autoplot(sp_500, main = 'Real vs Fitted Values') + geom_line(aes(y = fitted(fit)), col = 'red') + theme(panel.background = element_blank(),
+                                                                                                        panel.grid.minor = element_blank(),
+                                                                                                        axis.ticks  = element_blank(),
+                                                                                                        axis.line   = element_line(colour=NA),
+                                                                                                        axis.line.x = element_line(colour="grey80")) 
+rvf
+ggplotly(rvf)
+# Thus once fitted we check the residual diagnostics to make sure our residuals are white noise!
+resid <- fit$residuals
+ggtsdisplay(resid) + theme(panel.background = element_blank(),
+                                    panel.grid.minor = element_blank(),
+                                    axis.ticks  = element_blank(),
+                                    axis.line   = element_line(colour=NA),
+                                    axis.line.x = element_line(colour="grey80")) 
+# thus we conclude that
+ggplot(data=fit, aes(residuals(fit))) + geom_histogram(aes(y =..density..), col="black", fill="white") + geom_density(col=1) + theme(panel.background = element_blank(),
+                                                                                          panel.grid.minor = element_blank(),
+                                                                                          axis.ticks  = element_blank(),
+                                                                                          axis.line   = element_line(colour=NA),
+                                                                                          axis.line.x = element_line(colour="grey80")) 
+# declaring act_sp500_2015 vector with actual sp500 values for year 2015, for comparison purposes
+dataMaster_TS <- dataMaster[-c(1:240), ]
+act_sp500_2015_ts <- ts(dataMaster_TS$sp_500, start = c(2015, 1), freq = 12)
+act_sp500_2015_ts
+
+sp500_ACT <- ts(sp_500, start = c(2015,1), freq = 12)
+sp500_ACT
+for_sp500_all <- forecast(auto.arima(sp500_TR), 12)
+auto.arima(sp500_TR)
+fit2 <- Arima(sp500_TR, order = c(0, 1, 1), include.drift = TRUE)
+# Here we do some residual diagnostics to make sure we have white noise!
+resARIMA_all <- fit2$residuals
+# Here we can include a plot 
+# We found this function in StackExchange: http://stackoverflow.com/questions/4357031/qqnorm-and-qqline-in-ggplot2
+gg_qq(resARIMA_all) 
+
+
+autoplot(resARIMA_all, main = "Residual Plots for Forecast") + theme(panel.background = element_blank(),
+                                                                      panel.grid.minor = element_blank(),
+                                                                      axis.ticks  = element_blank(),
+                                                                      axis.line   = element_line(colour=NA),
+                                                                      axis.line.x = element_line(colour="grey80")) 
+autoplot(acf(resARIMA_all)) 
++ geom_density(col=1) + theme(panel.background = element_blank(),
+                                                          panel.grid.minor = element_blank(),
+                                                          axis.ticks  = element_blank(),
+                                                          axis.line   = element_line(colour=NA),
+                                                          axis.line.x = element_line(colour="grey80")) 
+hist(resARIMA_all, prob = TRUE, main = "Histogram of ARIMA Training Set")
+lines(density(resARIMA_all))
+
+# Fix This
+ggplot(data=fit2, aes(residuals(fit2))) + geom_histogram(aes(y =..density..), col="black", fill="white") + geom_density(col=1) + 
+                                                                                                   theme(panel.background = element_blank(),
+                                                                                                   panel.grid.minor = element_blank(),
+                                                                                                   axis.ticks  = element_blank(),
+                                                                                                   axis.line   = element_line(colour=NA),
+                                                                                                   axis.line.x = element_line(colour="grey80"))
+# From these two plots we see that the residuals look like white noise so we're good to go on forecasting
+
+# Here we extract the forecast information to create better visual demonstration of the forecast vs actual values!
+m <- autoplot(for_sp500_all) + theme(panel.background = element_blank(),
+                                     panel.grid.minor = element_blank(),
+                                     axis.ticks  = element_blank(),
+                                     axis.line   = element_line(colour=NA),
+                                     axis.line.x = element_line(colour="grey80"))  
+m
+ggplotly(m)
+
+##
+####
+######
+#     BOX COX TRANSFORMATION
+######
+####
+##
+
+
+
+lambda <- BoxCox.lambda(sp500_TR)
+fit_sp500_BC <- ar(BoxCox(sp500_TR,lambda))
+fit_sp500_BC
+attributes(fit_sp500_BC)
+# Here we do some residual plots to make sure our residuals are white noise and uncorrelated
+autoplot(fit_sp500_BC$resid, main = "Residual plot for Box Cox Transformation") + theme(panel.background = element_blank(),
+                                                                                        panel.grid.minor = element_blank(),
+                                                                                        axis.ticks  = element_blank(),
+                                                                                        axis.line   = element_line(colour=NA),
+                                                                                        axis.line.x = element_line(colour="grey80")) 
+autoplot(acf(fit_sp500_BC$resid,  na.action=na.pass, main = "ACF plot for residuals")) + theme(panel.background = element_blank(),
+                                                                                               panel.grid.minor = element_blank(),
+                                                                                               axis.ticks  = element_blank(),
+                                                                                               axis.line   = element_line(colour=NA),
+                                                                                               axis.line.x = element_line(colour="grey80")) 
+
+for_sp500_BC <- forecast(fit_sp500_BC,h=12,lambda=lambda)
+attributes(for_sp500_BC)
+
+# CSV File for residuals of BC model
+resBC <- for_sp500_BC$residuals
+hist(resBC, prob = TRUE, main = "Histogram of Box Cox Model residuals", ylim = c(0, .1))
+lines(density(na.omit(resBC)))
+write.csv(resBC, file = "resBC.csv")
+for_sp500_BC
+ggplot(data=fit_sp500_BC, aes(residuals(fit_sp500_BC))) + geom_histogram(aes(y =..density..), col="black", fill="white") + geom_density(col=1) + theme(panel.background = element_blank(),
+                                                                                                                                     panel.grid.minor = element_blank(),
+                                                                                                                                     axis.ticks  = element_blank(),
+                                                                                                                                     axis.line   = element_line(colour=NA),
+                                                                                                                                     axis.line.x = element_line(colour="grey80")) 
+#Creating the predicted values for the Box Cox model for 2015
+s <- autoplot(forecast(fit_sp500_BC,h=12,lambda=lambda)) + theme(panel.background = element_blank(),
+                                                                 panel.grid.minor = element_blank(),
+                                                                 axis.ticks  = element_blank(),
+                                                                 axis.line   = element_line(colour=NA),
+                                                                 axis.line.x = element_line(colour="grey80")) 
+s
+ggplotly(s)
+# Conclusions: Box Cox transformations are usually done with data that is heteroskedastic so the forecast didn't perform as well as the ARIMA model, but we wanted to include it just in case
+# anyone wants to use our methodology with data that has a non-constant variance!
+# Here we're plotting other forecasts that aren't as good predictors for this data so we are keeping them as simple plots the same steps would be followed as done before if you wanted a 
+# detailed plot of these methods
+dev.off()
+e <- autoplot(forecast(meanf(sp500_TR, h = 12)), main = "Forecast Using Mean Methods") + theme(panel.background = element_blank(),
+                                                                                              panel.grid.minor = element_blank(),
+                                                                                              axis.ticks  = element_blank(),
+                                                                                              axis.line   = element_line(colour=NA),
+                                                                                              axis.line.x = element_line(colour="grey80")) 
+e
+ggplotly(e)
+f <- autoplot(forecast(naive(sp500_TR, h = 12)), main = "Forecast using Naive Method") + theme(panel.background = element_blank(),
+                                                                                               panel.grid.minor = element_blank(),
+                                                                                               axis.ticks  = element_blank(),
+                                                                                               axis.line   = element_line(colour=NA),
+                                                                                               axis.line.x = element_line(colour="grey80")) 
+
+f
+ggplotly(f)
+g <- autoplot(forecast(snaive(sp500_TR, h = 12)), main = "Forecast using Seasonal Naive Method") + theme(panel.background = element_blank(),
+                                                                                                    panel.grid.minor = element_blank(),
+                                                                                                    axis.ticks  = element_blank(),
+                                                                                                    axis.line   = element_line(colour=NA),
+                                                                                                    axis.line.x = element_line(colour="grey80")) 
+
+
+g  
+ggplotly(g)  
+h <- autoplot(forecast(ets(sp500_TR), h = 12), main = "Forecast using ETS Method") + theme(panel.background = element_blank(),
+                                                                                          panel.grid.minor = element_blank(),
+                                                                                          axis.ticks  = element_blank(),
+                                                                                          axis.line   = element_line(colour=NA),
+                                                                                          axis.line.x = element_line(colour="grey80")) 
+h
+ggplotly(h)
+#Forecast for the year 2016!!
+autoplot(forecast(auto.arima(sp_500), h = 12)) + 
+  coord_cartesian(xlim = c(2014, 2018), ylim = c(1700, 2800)) + theme(panel.background = element_blank(),
+                                                                      panel.grid.minor = element_blank(),
+                                                                      axis.ticks  = element_blank(),
+                                                                      axis.line   = element_line(colour=NA),
+                                                                      axis.line.x = element_line(colour="grey80"))
+###Measuring accuracy between models 
+accuracy(for_sp500_all)
+accuracy(for_sp500_BC)
+accuracy(meanf(sp500_TR, h = 12))
+accuracy(naive(sp500_TR, h = 12))
+accuracy(snaive(sp500_TR, h = 12))
+accuracy(forecast(ets(sp500_TR), h = 12))
+
+# Thus we concluded that the ARIMA model produced the best forecast!
+
+# After concluding our basic time series analysis, upon further research I were concerned with the issue of volitaty since our data seemed to 
+# to display this. So I learned about the model that is called Autoregressive Conditional Heteroskedasticity (ARCH). Upon reading online documentation 
+# (listed in the resources!) there is risk of volatility clustering which is especially prevalent in financial time series. The steps required to 
+# see if ARCH was necessary are outlined here!!
+
+# ARCH Modeling
+# Here we first square the residuals and plot the time series/ACF/PACF to see if there is correlation within the residuals.
+# If there is we can continue adding on to our ARIMA model with a gARCH aspect that helps in the volatity of our data.
+squared.resARIMA <- resARIMA_all^2
+autoplot(squared.resARIMA, main = "Squared Residuals") + theme(panel.background = element_blank(),
+                                                               panel.grid.minor = element_blank(),
+                                                               axis.ticks  = element_blank(),
+                                                               axis.line   = element_line(colour=NA),
+                                                               axis.line.x = element_line(colour="grey80")) 
+autoplot(acf(squared.resARIMA))
+autoplot(pacf(squared.resARIMA))
+e <- autoplot(acf(squared.resARIMA, plot = FALSE), conf.int.fill = '#0000FF', conf.int.value = 0.8, conf.int.type = 'ma') + theme(panel.background = element_blank(),
+                                                                                                                      panel.grid.minor = element_blank(),
+                                                                                                                      axis.ticks  = element_blank(),
+                                                                                                                      axis.line   = element_line(colour=NA),
+                                                                                                                      axis.line.x = element_line(colour="grey80")) 
+f <- autoplot(pacf(squared.resARIMA, plot = FALSE), conf.int.fill = '#0000FF', conf.int.value = 0.8, conf.int.type = 'ma') + theme(panel.background = element_blank(),
+                                                                                                                       panel.grid.minor = element_blank(),
+                                                                                                                       axis.ticks  = element_blank(),
+                                                                                                                       axis.line   = element_line(colour=NA),
+                                                                                                                       axis.line.x = element_line(colour="grey80")) 
+multiplot(e, f, cols = 1)
+# The acf plot shows one significant lag, as does the pacf, but that isn't enough to suggest we need GARCH modeling
+gfit <- garch(resARIMA_all, order = c(1,1), trace = TRUE)
+na.omit(gfit$residuals)
+plot(gfit$fitted.values)
+str(gfit)
+resGfit <- gfit$residuals
+gg_qq(resGfit)
+# The plots indicate that there is no correlation so a gARCH model might not be necessary, but I went ahead and made the model to be sure!
+# Using the tseries package I fitted the basic gARCH(1, 1) model which I didn't conclude was the best, but it is the most commonly used mode. 
+# So I fit the model on the residuals!! Not the original time series, not the differenced time series, but the residuals. Then I let TRACE 
+# be TRUE so that I would be able to see if there was any errors in the estimation of the model, which there was!!!
+# Sources online state that if there reads a line ***** FALSE CONVERGENCE ***** then we should be cautious of the statistical significance of the model
+# Thus I concluded from this and the ACF/PACF of the squared residuals that a gARCH model was not need, but it was still interesting and useful to know 
+# for future reference!!! 
