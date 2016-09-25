@@ -6,7 +6,7 @@
 #######
 #######
 ####### Time Series Model for S&P 500
-#######
+####### Compiled by Raul Eulogio
 #######
 #######
 #######
@@ -141,7 +141,7 @@ b <- autoplot(pacf(sp_500, plot = FALSE), conf.int.fill = '#0000FF', conf.int.va
                                                                                                                          panel.grid.minor = element_blank(),
                                                                                                                          axis.ticks  = element_blank(),
                                                                                                                          axis.line   = element_line(colour=NA),
-                                                                                                                         axis.line.x = element_line(colour="grey80")) 
+# YOU HAVE TO GRAB THE FUNCTION FROM THE WEBSITE AND RUN IT IN ORDER FOR THE 'multiplot' FUNCTION TO RUN PROPERLY!                                                                                                                         axis.line.x = element_line(colour="grey80")) 
 multiplot(a, b, cols = 1) # Grabbed from: http://www.cookbook-r.com/Graphs/Multiple_graphs_on_one_page_(ggplot2)/
   
 
