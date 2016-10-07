@@ -7,7 +7,7 @@
 #######
 ####### Time Series Model for S&P 500
 #######
-####### Compiled by Raul Eulogio
+#######
 #######
 #######
 #######
@@ -38,7 +38,7 @@ attach(dataMaster)
 # This next step is if you want to publish the images in plotly! 
 # So if you don't you can disregrad these two following lines
 Sys.setenv("plotly_username"="userName") # For plotly credentials and publishing 
-Sys.setenv("plotly_api_key"="passWord") # DO NOT POST YOUR ACTUAL API KEY ON GITHUB
+Sys.setenv("plotly_api_key"="passWord") # DO NOT POST IN GITHUB
 
 # install.packages() the following packages, run this on the terminal
 
@@ -231,8 +231,7 @@ c <- autoplot(acf(diff, plot = FALSE),
 	conf.int.type = 'ma', ts.colour = "turquoise4") + 
 theme(panel.background = element_rect(fill = "gray98"),
 	axis.line.y   = element_line(colour="gray"),
-	axis.line.x = element_line(colour="gray"),
-	plot.title = element_text(size=20, face="bold")) +
+	axis.line.x = element_line(colour="gray")) +
   labs(title = "ACF and PACF of S&P 500 (First Difference)")
 
 d <- autoplot(pacf(diff, plot = FALSE), 
@@ -250,7 +249,7 @@ multiplot(c, d, cols = 1)  # Grabbed from: http://www.cookbook-r.com/Graphs/Mult
 # We used both the auto.arima and our own inspection of the acf and pacf plot to deduce that the best model was Arima(0,1,1)
 
 auto.arima(sp500_TR)
-fit <- Arima(sp500_TR, order = c(0,1,1), include.drift = TRUE)
+fit <- Arima(sp500_TR, order = c(0,1,1), include.drift = T)
 fit
 # We can see the fitted values vs actual values!
 rvf <- autoplot(sp500_TR, main = 'Real vs Fitted Values', 
@@ -284,16 +283,16 @@ residBar <- ggplot(data=fit, aes(residuals(fit))) +
 residBar
 ggplotly(residBar)
 # declaring asp500_ACT vector with actual sp500 values for year 2015, for comparison purposes
-sp500_ACT <- window(sp_500, 2015, c(2015, 12))
+sp500_for <- forecast(fit, 48, level = 95) 
 
-sp500_for <- forecast(fit, 12, level = 95) 
 forSp500 <- autoplot(sp500_for) +
   theme(panel.background = element_rect(fill = "gray98"),
         panel.grid.minor = element_blank(),
         axis.line   = element_line(colour="gray"),
         axis.line.x = element_line(colour="gray")) + 
   labs(x = "Year", y = "Closing Values") +
-  labs(title = "Plot of 2015 Forecast for S&P 500")
+  labs(title = "Plot of 2015 Forecast for S&P 500") 
+forSp500
 ggplotly(forSp500)
 
 # We found this function in StackExchange: http://stackoverflow.com/questions/4357031/qqnorm-and-qqline-in-ggplot2
@@ -315,7 +314,8 @@ lambda <- BoxCox.lambda(sp500_TR)
 fit_sp500_BC <- ar(BoxCox(sp500_TR,lambda))
 fit_sp500_BC
 #Creating the predicted values for the Box Cox model for 2015
-s <- autoplot(forecast(fit_sp500_BC,h=12,lambda=lambda, level = 95), ts.colour = "turquoise4", size=1) + 
+s <- autoplot(forecast(fit_sp500_BC,h=48,lambda=lambda, level = 95), 
+              ts.colour = "turquoise4", size=1) + 
   theme(panel.background = element_rect(fill = "gray98"),
         panel.grid.minor = element_blank(),
         axis.line.y = element_line(colour="gray"),
@@ -328,7 +328,8 @@ ggplotly(s)
 # anyone wants to use our methodology with data that has a non-constant variance!
 # Here we're plotting other forecasts that aren't as good predictors for this data so we are keeping them as simple plots the same steps would be followed as done before if you wanted a 
 # detailed plot of these methods
-e <- autoplot(forecast(meanf(sp500_TR, h = 12, level = 95)), ts.colour = "turquoise4", size=1) + 
+e <- autoplot(forecast(meanf(sp500_TR, h = 48, level = 95)), 
+              ts.colour = "turquoise4", size=1) + 
   theme(panel.background = element_rect(fill = "gray98"),
         panel.grid.minor = element_blank(),
         axis.line.y = element_line(colour="gray"),
@@ -338,7 +339,7 @@ e <- autoplot(forecast(meanf(sp500_TR, h = 12, level = 95)), ts.colour = "turquo
 e
 ggplotly(e)
 
-f <- autoplot(forecast(naive(sp500_TR, h = 12, level = 95)), ts.colour = "turquoise4", size=1) + 
+f <- autoplot(forecast(naive(sp500_TR, h = 48, level = 95)), ts.colour = "turquoise4", size=1) + 
   theme(panel.background = element_rect(fill = "gray98"),
         panel.grid.minor = element_blank(),
         axis.line.y = element_line(colour="gray"),
@@ -349,7 +350,7 @@ f <- autoplot(forecast(naive(sp500_TR, h = 12, level = 95)), ts.colour = "turquo
 f
 ggplotly(f)
 
-g <- autoplot(forecast(snaive(sp500_TR, h = 12, level = 95)), ts.colour = "turquoise4", size=1) + 
+g <- autoplot(forecast(snaive(sp500_TR, h = 48, level = 95)), ts.colour = "turquoise4", size=1) + 
   theme(panel.background = element_rect(fill = "gray98"),
         panel.grid.minor = element_blank(),
         axis.line.y = element_line(colour="gray"),
@@ -358,7 +359,7 @@ g <- autoplot(forecast(snaive(sp500_TR, h = 12, level = 95)), ts.colour = "turqu
        title = "Seasonal Naive Forecast Plot of S&P 500") 
 ggplotly(g)  
 
-h <- autoplot(forecast(ets(sp500_TR), h = 12, level = 95), ts.colour = "turquoise4", size=1) + 
+h <- autoplot(forecast(ets(sp500_TR), h = 48, level = 95), ts.colour = "turquoise4", size=1) + 
   theme(panel.background = element_rect(fill = "gray98"),
         panel.grid.minor = element_blank(),
         axis.line.y = element_line(colour="gray"),
@@ -395,14 +396,13 @@ accuracy(forecast(ets(sp500_TR), h = 12))
 # Here we first square the residuals and plot the time series/ACF/PACF to see if there is correlation within the residuals.
 # If there is we can continue adding on to our ARIMA model with a gARCH aspect that helps in the volatity of our data.
 squared.resARIMA <- fit$residuals^2
-sqRes <- autoplot(squared.resARIMA, main = "Squared Residuals", ts.colour = "turquoise4") +
+sqRes <- autoplot(squared.resARIMA, main = "Plot of Squared Residuals", ts.colour = "turquoise4") +
   theme(panel.background = element_rect(fill = "gray98"),
         panel.grid.minor = element_blank(),
         axis.line.y = element_line(colour="gray"),
         axis.line.x = element_line(colour="gray"))
 sqRes
 ggplotly(sqRes)
-
 e <- autoplot(acf(squared.resARIMA, plot = FALSE), 
               conf.int.fill = '#0000FF', conf.int.value = 0.95, 
               conf.int.type = 'ma') + 
@@ -433,4 +433,4 @@ gg_qq(resGfit)
 # be TRUE so that I would be able to see if there was any errors in the estimation of the model, which there was!!!
 # Sources online state that if there reads a line ***** FALSE CONVERGENCE ***** then we should be cautious of the statistical significance of the model
 # Thus I concluded from this and the ACF/PACF of the squared residuals that a gARCH model was not need, but it was still interesting and useful to know 
-# for future reference!!! 
+# or future reference!!! 
