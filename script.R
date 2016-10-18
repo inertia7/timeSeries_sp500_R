@@ -24,7 +24,7 @@
 ####
 ##
 
-### REMEMBER YOU WILL NEED TO RUN THE 'multiplot' and 'gg_qq'
+### REMEMBER YOU WILL NEED TO RUN THE 'multiplot' before running this script
 print("Time Series Model for S&P 500")
 # Add the directory path of data_1/data_master_1.csv file
 wd <- getwd()
@@ -32,7 +32,7 @@ parent <- getwd()
 setwd(wd)
 print(parent)
 # Load the data file
-dataMaster <- read.csv(file.path(parent, "data_1/data_master_1.csv"))
+dataMaster <- read.csv(file.path(parent, "/data_master_1.csv"))
 
 attach(dataMaster)
 # This next step is if you want to publish the images in plotly! 
@@ -131,7 +131,7 @@ sp500_TR <- ts(sp_500, start=c(1995, 1), end=c(2014, 12), freq=12)
 sp500_TR
 # First we plot the time series plot to get an understanding of the necessary modeling
 ts <- autoplot(sp_500, main = "Plot of S&P 500 Time Series(1995-2015)", 
-               ts.colour = "turquoise4", size=1) + 
+               ts.colour = "turquoise4", size=0.75) + 
   theme(panel.background = element_rect(fill = "gray98"),
         axis.ticks  = element_blank(),
         axis.line   = element_line(colour="black"),
@@ -251,17 +251,6 @@ multiplot(c, d, cols = 1)  # Grabbed from: http://www.cookbook-r.com/Graphs/Mult
 auto.arima(sp500_TR)
 fit <- Arima(sp500_TR, order = c(0,1,1), include.drift = T)
 fit
-# We can see the fitted values vs actual values!
-rvf <- autoplot(sp500_TR, main = 'Real vs Fitted Values', 
-                ts.colour = 'turquoise4', size = 2) + 
-  geom_line(aes(y = fitted(fit)), col="red") +
-  theme(panel.background = element_rect(fill = "gray98"),
-        panel.grid.minor = element_blank(),
-        axis.line.y = element_line(colour="grey"),
-        axis.line.x = element_line(colour="grey")) +
-  scale_color_manual(values = c("turquoise4", "red"))
-rvf
-ggplotly(rvf)
 
 # Thus once fitted we check the residual diagnostics to make sure our residuals are white noise!
 residFit <- ggtsdiag(fit) + theme(panel.background = element_rect(fill = "gray98"),
@@ -283,7 +272,7 @@ residBar <- ggplot(data=fit, aes(residuals(fit))) +
 residBar
 ggplotly(residBar)
 # declaring asp500_ACT vector with actual sp500 values for year 2015, for comparison purposes
-sp500_for <- forecast(fit, 48, level = 95) 
+sp500_for <- forecast(fit, 12, level = 95) 
 
 forSp500 <- autoplot(sp500_for) +
   theme(panel.background = element_rect(fill = "gray98"),
@@ -295,11 +284,6 @@ forSp500 <- autoplot(sp500_for) +
 forSp500
 ggplotly(forSp500)
 
-# We found this function in StackExchange: http://stackoverflow.com/questions/4357031/qqnorm-and-qqline-in-ggplot2
-gg_qq(fit$residuals)
-# This plot shows us that although the data suggests not to be there are some discrepancies within the residuals
-# although we can say that it's reasonable to suggest there is an approximation of normality although we know that 
-# that this data set is far from perfect when it comes to the Box-Jenkins Assumptions, ref:
 ##
 ####
 ######
@@ -314,7 +298,7 @@ lambda <- BoxCox.lambda(sp500_TR)
 fit_sp500_BC <- ar(BoxCox(sp500_TR,lambda))
 fit_sp500_BC
 #Creating the predicted values for the Box Cox model for 2015
-s <- autoplot(forecast(fit_sp500_BC,h=48,lambda=lambda, level = 95), 
+s <- autoplot(forecast(fit_sp500_BC,h=12,lambda=lambda, level = 95), 
               ts.colour = "turquoise4", size=1) + 
   theme(panel.background = element_rect(fill = "gray98"),
         panel.grid.minor = element_blank(),
@@ -328,7 +312,7 @@ ggplotly(s)
 # anyone wants to use our methodology with data that has a non-constant variance!
 # Here we're plotting other forecasts that aren't as good predictors for this data so we are keeping them as simple plots the same steps would be followed as done before if you wanted a 
 # detailed plot of these methods
-e <- autoplot(forecast(meanf(sp500_TR, h = 48, level = 95)), 
+e <- autoplot(forecast(meanf(sp500_TR, h = 12, level = 95)), 
               ts.colour = "turquoise4", size=1) + 
   theme(panel.background = element_rect(fill = "gray98"),
         panel.grid.minor = element_blank(),
@@ -339,7 +323,7 @@ e <- autoplot(forecast(meanf(sp500_TR, h = 48, level = 95)),
 e
 ggplotly(e)
 
-f <- autoplot(forecast(naive(sp500_TR, h = 48, level = 95)), ts.colour = "turquoise4", size=1) + 
+f <- autoplot(forecast(naive(sp500_TR, h = 12, level = 95)), ts.colour = "turquoise4", size=1) + 
   theme(panel.background = element_rect(fill = "gray98"),
         panel.grid.minor = element_blank(),
         axis.line.y = element_line(colour="gray"),
@@ -350,7 +334,7 @@ f <- autoplot(forecast(naive(sp500_TR, h = 48, level = 95)), ts.colour = "turquo
 f
 ggplotly(f)
 
-g <- autoplot(forecast(snaive(sp500_TR, h = 48, level = 95)), ts.colour = "turquoise4", size=1) + 
+g <- autoplot(forecast(snaive(sp500_TR, h = 12, level = 95)), ts.colour = "turquoise4", size=1) + 
   theme(panel.background = element_rect(fill = "gray98"),
         panel.grid.minor = element_blank(),
         axis.line.y = element_line(colour="gray"),
@@ -359,7 +343,7 @@ g <- autoplot(forecast(snaive(sp500_TR, h = 48, level = 95)), ts.colour = "turqu
        title = "Seasonal Naive Forecast Plot of S&P 500") 
 ggplotly(g)  
 
-h <- autoplot(forecast(ets(sp500_TR), h = 48, level = 95), ts.colour = "turquoise4", size=1) + 
+h <- autoplot(forecast(ets(sp500_TR), h = 12, level = 95), ts.colour = "turquoise4", size=1) + 
   theme(panel.background = element_rect(fill = "gray98"),
         panel.grid.minor = element_blank(),
         axis.line.y = element_line(colour="gray"),
@@ -421,12 +405,6 @@ f <- autoplot(pacf(squared.resARIMA, plot = FALSE),
   labs(y = "PACF")
 multiplot(e, f, cols = 1)
 # The acf plot shows one significant lag, as does the pacf, but that isn't enough to suggest we need GARCH modeling
-gfit <- garch(fit$residuals, order = c(1,1), trace = TRUE)
-na.omit(gfit$residuals)
-plot(gfit$fitted.values)
-str(gfit)
-resGfit <- gfit$residuals
-gg_qq(resGfit)
 # The plots indicate that there is no correlation so a gARCH model might not be necessary, but I went ahead and made the model to be sure!
 # Using the tseries package I fitted the basic gARCH(1, 1) model which I didn't conclude was the best, but it is the most commonly used mode. 
 # So I fit the model on the residuals!! Not the original time series, not the differenced time series, but the residuals. Then I let TRACE 
