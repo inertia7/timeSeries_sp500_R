@@ -1,3 +1,6 @@
+# FORECASTING THE STOCK MARKET (R) script
+# Project and visuals can be found at http://www.inertia7.com/projects/time-series-stock-market-r
+
 #RUN THESE COMMANDS IF THESE THRIRD PARTY PACKAGES HAVE NOT BEEN DOWNLOADED YET
 
 # install.packages("ggplot2")
