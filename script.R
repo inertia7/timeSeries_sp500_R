@@ -118,7 +118,7 @@ grid.arrange(c, d)
 
 # SEASONAL PLOT FOR DIFFERENCED TIME SERIES OBJECT
 spDiff <- ggseasonplot(diff, xlab="Year", 
-                       main="Seasonal Plot of First Difference of SP 500",
+                       main="Seasonal Plot of First Difference of S&P 500",
                        year.labels=TRUE, year.labels.left=TRUE, col=1:20, pch=19) + 
   theme(panel.background = element_rect(fill = "gray98"),
         axis.line.y = element_line(colour="gray"),
@@ -132,18 +132,31 @@ fit <- Arima(sp500_TR, order = c(0,1,1), include.drift = TRUE)
 summary(fit)
 
 # RESIDUAL DIAGNOSTICS
-resid <- fit$residuals
 
 ggtsdiag(fit) + theme(panel.background = element_rect(fill = "gray98"),
                       panel.grid.minor = element_blank(),
                       axis.line.y = element_line(colour="gray"),
                       axis.line.x = element_line(colour="gray")) 
 
+residFit <- ggplot(data=fit, aes(residuals(fit))) + 
+    geom_histogram(aes(y =..density..), 
+    col="black", fill="white") +
+geom_density(col=1) +
+theme(panel.background = element_rect(fill = "gray98"),
+    panel.grid.minor = element_blank(),
+    axis.line   = element_line(colour="gray"),
+    axis.line.x = element_line(colour="gray")) +
+ggtitle("Plot of SP 500 ARIMA Model Residuals") 
+
+residFit
+ggplotly(residFit)
+
 dataMaster_TS <- dataMaster[-c(1:240), ]
 act_sp500_2015_ts <- ts(dataMaster_TS$sp_500, start = c(2015, 1), freq = 12)
 act_sp500_2015_ts
 
 
+# NEXT WE CREATE AN OBJECT THAT WILL GIVE US THE GGPLOT2 OBJECTS WE WANT 
 #######################################################################
 # HERE FOUND AT http://librestats.com/2012/06/11/autoplot-graphical-methods-with-ggplot2/
 # BY DREW SCHMIDT WITH SLIGHT MODIFICATIONS TO FIT OUR PLOTS
@@ -200,7 +213,6 @@ for_sp500_BC <- forecast(fit_sp500_BC,h=12,lambda=lambda)
 
 s <- autoplot(forecast(fit_sp500_BC,h=12,lambda=lambda), holdout = act_sp500_2015_ts) + 
   theme(panel.background = element_rect(fill = "gray98"),
-        panel.grid.minor = element_blank(),
         axis.line.y = element_line(colour="gray"),
         axis.line.x = element_line(colour="gray")) + 
   labs(x = "Year", y = "Closing Values", 
@@ -210,27 +222,24 @@ ggplotly(s)
 
 e <- autoplot(forecast(meanf(sp500_TR, h = 12)), holdout = act_sp500_2015_ts) + 
   theme(panel.background = element_rect(fill = "gray98"),
-        panel.grid.minor = element_blank(),
         axis.line.y = element_line(colour="gray"),
         axis.line.x = element_line(colour="gray")) + 
-  labs(title = "Mean Forecast Plot of S&P 500")
+  labs(x = "Year", y = "Closing Values", 
+        title = "Mean Forecast Plot of S&P 500")
 e
 ggplotly(e)
 
 f <- autoplot(forecast(naive(sp500_TR, h = 12)), holdout = act_sp500_2015_ts) + 
   theme(panel.background = element_rect(fill = "gray98"),
-        panel.grid.minor = element_blank(),
         axis.line.y = element_line(colour="gray"),
         axis.line.x = element_line(colour="gray")) + 
-  labs(title = "Naive Forecast Plot of S&P 500") +
-  xlab("Year") + ylab("Closing Values") 
+  labs(x = "Year", y = "Closing Values", 
+        title = "Naive Forecast Plot of S&P 500") +
 f
-
 ggplotly(f)
 
 g <- autoplot(forecast(snaive(sp500_TR, h = 12)), holdout = act_sp500_2015_ts) + 
   theme(panel.background = element_rect(fill = "gray98"),
-        panel.grid.minor = element_blank(),
         axis.line.y = element_line(colour="gray"),
         axis.line.x = element_line(colour="gray")) + 
   labs(x = "Year", y = "Closing Values", 
@@ -240,7 +249,6 @@ ggplotly(g)
 
 h <- autoplot(forecast(ets(sp500_TR), h = 12), holdout=act_sp500_2015_ts) + 
   theme(panel.background = element_rect(fill = "gray98"),
-        panel.grid.minor = element_blank(),
         axis.line.y = element_line(colour="gray"),
         axis.line.x = element_line(colour="gray")) + 
   labs(x = "Year", y = "Closing Values", 
@@ -271,7 +279,6 @@ e <- autoplot(acf(squared.resARIMA, plot = FALSE),
               conf.int.fill = '#0000FF', conf.int.value = 0.95, 
               conf.int.type = 'ma') + 
   theme(panel.background = element_rect(fill = "gray98"),
-        panel.grid.minor = element_blank(),
         axis.line.y = element_line(colour="gray"),
         axis.line.x = element_line(colour="gray")) +
   labs(title = "ACF and PACF of S&P 500 Residuals^2")
@@ -279,7 +286,6 @@ f <- autoplot(pacf(squared.resARIMA, plot = FALSE),
               conf.int.fill = '#0000FF', conf.int.value = 0.95, 
               conf.int.type = 'ma') + 
   theme(panel.background = element_rect(fill = "gray98"),
-        panel.grid.minor = element_blank(),
         axis.line.y = element_line(colour="gray"),
         axis.line.x = element_line(colour="gray")) +
   labs(y = "PACF")
