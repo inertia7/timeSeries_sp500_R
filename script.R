@@ -22,7 +22,7 @@ library(tseries)
 library(gridExtra)
 
 # LOAD DATA
-dataMaster <- read.csv("/set/appopriate/working/directory/data_master_1.csv")
+dataMaster <- read.csv("/set/appropriate/workingDirectory/data_master_1.csv")
 attach(dataMaster)
 
 # EXPLORATORY ANALYSIS
@@ -142,14 +142,14 @@ ggtsdiag(fit) + theme(panel.background = element_rect(fill = "gray98"),
                       axis.line.x = element_line(colour="gray")) 
 
 residFit <- ggplot(data=fit, aes(residuals(fit))) + 
-    geom_histogram(aes(y =..density..), 
-    col="black", fill="white") +
-geom_density(col=1) +
-theme(panel.background = element_rect(fill = "gray98"),
-    panel.grid.minor = element_blank(),
-    axis.line   = element_line(colour="gray"),
-    axis.line.x = element_line(colour="gray")) +
-ggtitle("Plot of SP 500 ARIMA Model Residuals") 
+  geom_histogram(aes(y =..density..), 
+                 col="black", fill="white") +
+  geom_density(col=1) +
+  theme(panel.background = element_rect(fill = "gray98"),
+        panel.grid.minor = element_blank(),
+        axis.line   = element_line(colour="gray"),
+        axis.line.x = element_line(colour="gray")) +
+  ggtitle("Plot of SP 500 ARIMA Model Residuals") 
 
 residFit
 ggplotly(residFit)
@@ -228,7 +228,7 @@ e <- autoplot(forecast(meanf(sp500_TR, h = 12)), holdout = act_sp500_2015_ts) +
         axis.line.y = element_line(colour="gray"),
         axis.line.x = element_line(colour="gray")) + 
   labs(x = "Year", y = "Closing Values", 
-        title = "Mean Forecast Plot of S&P 500")
+       title = "Mean Forecast Plot of S&P 500")
 e
 ggplotly(e)
 
@@ -237,7 +237,7 @@ f <- autoplot(forecast(naive(sp500_TR, h = 12)), holdout = act_sp500_2015_ts) +
         axis.line.y = element_line(colour="gray"),
         axis.line.x = element_line(colour="gray")) + 
   labs(x = "Year", y = "Closing Values", 
-        title = "Naive Forecast Plot of S&P 500") +
+       title = "Naive Forecast Plot of S&P 500") 
 f
 ggplotly(f)
 
@@ -278,20 +278,22 @@ sqRes <- autoplot(squared.resARIMA, main = "Plot of Squared Residuals", ts.colou
         axis.line.x = element_line(colour="gray"))
 sqRes
 ggplotly(sqRes)
-e <- autoplot(acf(squared.resARIMA, plot = FALSE), 
+i <- autoplot(acf(squared.resARIMA, plot = FALSE), 
               conf.int.fill = '#0000FF', conf.int.value = 0.95, 
               conf.int.type = 'ma') + 
   theme(panel.background = element_rect(fill = "gray98"),
         axis.line.y = element_line(colour="gray"),
         axis.line.x = element_line(colour="gray")) +
   labs(title = "ACF and PACF of S&P 500 Residuals^2")
-f <- autoplot(pacf(squared.resARIMA, plot = FALSE), 
+j <- autoplot(pacf(squared.resARIMA, plot = FALSE), 
               conf.int.fill = '#0000FF', conf.int.value = 0.95, 
               conf.int.type = 'ma') + 
   theme(panel.background = element_rect(fill = "gray98"),
         axis.line.y = element_line(colour="gray"),
         axis.line.x = element_line(colour="gray")) +
   labs(y = "PACF")
-grid.arrange(e, f)
+grid.arrange(i, j)
 # The acf plot shows one significant lag, as does the pacf, but that isn't enough to suggest we need GARCH modeling
 gfit <- garch(fit$residuals, order = c(1,1), trace = TRUE)
+
+
