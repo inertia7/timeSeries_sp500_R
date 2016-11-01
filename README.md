@@ -12,3 +12,7 @@ You will have now downloaded the package so within your script you run:
 	require(packageName)
 
 This must be done before each Rstudio session, and written at the start of every script to ensure your code will be easily reproducible!
+## Steps Required 
+
+### Create plotly Account (Optional)	
+If you would like to have the images you create (using plotly) published on your own account, so that you can customise your liking or brag about the interactivety of your plots, simply create a [plolty account](https://plot.ly/). Once you do so you will have access to your username and more importantly your API key, these will be necessary to publishing your plots (If you do not wish to publish your plots skip this step). 
