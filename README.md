@@ -7,7 +7,7 @@ Here are the required packages which will ensure all the code will run properly.
 
 	install.packages("packageName") 
 
-once this is runs, you will have now downloaded the package so within your script you run: 
+You will have now downloaded the package so within your script you run: 
 
 	require(packageName)
 
