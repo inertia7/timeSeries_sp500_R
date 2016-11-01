@@ -1,1 +1,1 @@
-# timeSeries_sp500_R
+# Time Series Analysis on S&P 500 Stock Prices (1995-1995) 
