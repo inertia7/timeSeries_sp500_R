@@ -25,3 +25,25 @@ Important to note, when posting on GitHub never publish API keys (this is a comm
 From here you will be able to publish your ggplotly visuals by running (our ggplot2 object is called timeSeriesPlot for this example):
 
 	plotly_POST(timeSeriesPlot, filename = "timeSeriesPlot")
+
+# Create appropriate working directory
+Once the preliminary process of ensure your Rstudio has all parameters to ensure the code will run smoothly we suggest create an appropriate directory. For those using git we recommend using the following line on a terminal:
+
+	git clone git@github.com:wH4teVr folder-name
+
+But if you are doing it manually you choose the "Clone or download" button and choose "Download ZIP". From here you must take note of where the file is downloaded, once you are able to find the file location you must set the appropriate working directory. For this example we set the file into "/user/home/myProjects/timeSeriesR" so recall we have to set the working directory in Rstudio or you will receive errors especially when trying to read in the csv file. Therefore you run at the stop of your script:
+For linux:
+
+	setwd("/user/home/myProjects/timeSeriesR")
+
+For windows(Important when finding directorys you will have):
+
+	C:\home\myDocuments\myProjects\timeSeriesR
+
+Which will give you an error (since R considers "\" as an escape code, the correct form is:
+
+	setwd("C:/home/myDocuments/myProjects/timeSeriesR")
+
+
+
+
