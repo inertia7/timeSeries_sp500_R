@@ -22,6 +22,6 @@ Important to note, when posting on GitHub never publish API keys (this is a comm
 	Sys.setenv("plotly_username"="userName")
 	Sys.setenv("plotly_api_key"="d1X4Hrmbe")
 
-From here you will be able to publish your ggplotly visuals by running (for example our ggplot2 object is called timeSeriesPlot):
+From here you will be able to publish your ggplotly visuals by running (our ggplot2 object is called timeSeriesPlot for this example):
 
 	plotly_POST(timeSeriesPlot, filename = "timeSeriesPlot")
