@@ -15,4 +15,13 @@ This must be done before each Rstudio session, and written at the start of every
 ## Steps Required 
 
 ### Create plotly Account (Optional)	
-If you would like to have the images you create (using plotly) published on your own account, so that you can customise your liking or brag about the interactivety of your plots, simply create a [plolty account](https://plot.ly/). Once you do so you will have access to your username and more importantly your API key, these will be necessary to publishing your plots (If you do not wish to publish your plots skip this step). 
+If you would like to have the images you create (using plotly and ggplot2) published so that you can customise the plots to your liking or brag about the interactivety of your visuals simply create a [plolty account](https://plot.ly/). Once you do so you will have access to your username and more importantly your API key, these will be necessary to publishing your plots (If you do not wish to publish your plots skip this step). 
+
+Important to note, when posting on GitHub never publish API keys (this is a common mistake I see people do). Once you gain access to your API key, have plotly in your current working directory, you run:
+
+	Sys.setenv("plotly_username"="userName")
+	Sys.setenv("plotly_api_key"="d1X4Hrmbe")
+
+From here you will be able to publish your ggplotly visuals by running (for example our ggplot2 object is called timeSeriesPlot):
+
+	plotly_POST(timeSeriesPlot, filename = "timeSeriesPlot")
