@@ -51,14 +51,14 @@ Which will give you an error (since R considers "\" as an escape code, the corre
 Once you have done this you can read the csv file which contains the S&P 500 closing values for which we did our analysis on, and you can proceed to the time series analysis done through R!
 
 # Methodology 
-For our time series analysis we chose to use the [Box-Jenkins](https://en.wikipedia.org/wiki/Box%E2%80%93Jenkins#Box-Jenkins_model_identification) methodology which incorporates a series of steps to ensure we fit the appropriate criteria to produce the best model to forecasting our time series object. 
+For our time series analysis, we chose to focus on the [Box-Jenkins](https://en.wikipedia.org/wiki/Box%E2%80%93Jenkins#Box-Jenkins_model_identification) methodology which incorporates a series of steps to ensure we  produce the best model to forecasting. 
 
 The steps are roughly outlined here (although we will state that to get a better understanding other resources will provide a more in depth look at the Box-Jenkins Method):
 
 ### Stationary process
 The first step is checking to see if the time series object is stationary, this can be done in various methods which can also be explained as exploratory analysis since we are in essence "getting a feel" for our data. Here we include some of the processes:
 
-	-  Plotting the time series object: sometimes simply plotting the time series object can tell you if a process is stationary or not. 
-	- Decomposing a time series object allows us to view a time series object in components. Further discussion can be seen in the project, but when we decompose our time series objects we get a glimpse of its seasonal and trend components independently. 
+-  Plotting the time series object: sometimes simply plotting the time series object can tell you if a process is stationary or not. 
+- Decomposing a time series object allows us to view a time series object in components. Further discussion can be seen in the project, but when we decompose our time series objects we get a glimpse of its seasonal and trend components independently. 
 
 
