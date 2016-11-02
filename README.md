@@ -130,6 +130,7 @@ Ultimately we decided that our **ARIMA(0,1,1)** was the best model at forecastin
 
 - Hyndman, Rob J., and George Athanasopoulos. ["Forecasting: Principles and Practice"](https://www.otexts.org/fpp) Otexts. May 2012. Web. 
 
+- NIST/SEMATECH e-Handbook of Statistical Methods, [Introduction to Time Series Analysis](http://www.itl.nist.gov/div898/handbook/pmc/section4/pmc4.htm). June, 2016.
+
 - Schmidt, Drew. ["Autoplot: Graphical Methods with ggplot2"](http://librestats.com/2012/06/11/autoplot-graphical-methods-with-ggplot2/) Wrathematics, my stack runneth over. June, 2012. Web. 
 
-- NIST/SEMATECH e-Handbook of Statistical Methods, [Introduction to Time Series Analysis](http://www.itl.nist.gov/div898/handbook/pmc/section4/pmc4.htm). June, 2016.
