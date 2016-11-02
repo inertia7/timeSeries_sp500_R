@@ -134,3 +134,6 @@ Ultimately we decided that our **ARIMA(0,1,1)** was the best model at forecastin
 
 - Schmidt, Drew. ["Autoplot: Graphical Methods with ggplot2"](http://librestats.com/2012/06/11/autoplot-graphical-methods-with-ggplot2/) Wrathematics, my stack runneth over. June, 2012. Web. 
 
+- Shumway, Robert H. & Stoffer David S. ["Time Series Analysis and Its Applications With R Examples"](http://www.stat.pitt.edu/stoffer/tsa4/), 3rd edition. 2012
+
+- ["Stack Exchange"](http://stats.stackexchange.com/) Many contributions made from people on Stack Exchange, we cannot thank you enough. 
