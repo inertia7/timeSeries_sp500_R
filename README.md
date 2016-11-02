@@ -87,10 +87,16 @@ The first step is checking to see if the time series object is stationary, this 
 
 - Seasonal Plot: The name speaks for itself but this plot is a great way to check for seasonal components which is something common when dealing with yearly, quarterly and monthly data. 
 
-These plots will help us in our Box-Jenkins Model estimation, as well as doing transformations such as differencing and taking the log of our time series objects to take into consideration non-stationarity and heteroskedasticity respectively. 
+These plots will help us in our Box-Jenkins Model estimation, as well as doing transformations such as differencing (and taking the log if necessary) of our time series objects to take into consideration non-stationarity and heteroskedasticity respectively. 
 
 ### Autocorrelation and Partial Autocorrelation Plots
 These plots play a crucial role in time series analysis, because we can estimate our ARIMA model based on the behaviour of these plots or justify the need to do an appropriate transformation.  
+
+We won't go into too much detail since we outlined the process in the project, but through the use of our ACF and PACF plots for our original time series we were able to make the deduction to take the first difference of our time series. Once we did that we saw that the ACF and PACF plot showed characteristics of a MA(1) model, but since we took the first difference it becomes a mixed model; ARIMA(0, 1, 1)
+
+From here we do residual diagnostics to see if our model displays residuals that are white noise. 
+
+### Residual Diagnostics 
 
 
 
