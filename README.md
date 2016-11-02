@@ -73,9 +73,9 @@ We won't go into detail since there is already a plethora of online resources ou
 
 ## ARIMA Model 
 For this project we will be using the Autoregressive Integrated Moving Average model and its variations to forecast the S&P 500. For each component we have a corresponding variable for which we model if there is sign of these components. Here we roughly outline the parts that make an ARIMA model 
-- Autoregressive [AR(p)] - a stochastic process where future values are dependent on past values signifying that past values have a linear effect on the future values.
-- Integration [I(d)] - when differencing is done to make a process stationary, we include the differenced value(i.e. if we took the first difference it would be I(d=1))
-- Moving Average [MA(d)] - a prcoess where the current value is linearly regressed on current and past white noise terms (residuals)
+- **Autoregressive [AR(p)]** - a stochastic process where future values are dependent on past values signifying that past values have a linear effect on the future values.
+- **Integration [I(d)]** - when differencing is done to make a process stationary, we include the differenced value(i.e. if we took the first difference it would be I(d=1))
+- **Moving Average [MA(q)]** - a prcoess where the current value is linearly regressed on current and past white noise terms (residuals)
 
 Next we outline the steps to ensure we fit the appropriate ARIMA model!
 
