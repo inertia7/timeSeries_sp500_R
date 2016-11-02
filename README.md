@@ -113,8 +113,11 @@ We won't go into = detail here but we outlined several other forecasting methods
 - **Exponential Smoothing Forecast**
 
 These forecasting methods more concisely detailed on [HERE](https://www.otexts.org/fpp/2/3) by **Rob J Hyndman** and **George Athanasopoulos** 
+## Conclusions 
+Finally we draw conclusions using scale-dependent errors as to which model is best for forecasting our time series object!
 
+Ultimately we decided that our **ARIMA(0,1,1)** was the best model at forecasting based on the scale-dependent errors outlined in the projcet. 
 
-
+## Additional Resources
 
 
