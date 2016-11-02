@@ -72,12 +72,12 @@ But before we outline the steps we would like to outline some  necessary assumpt
 We won't go into detail since there is already a plethora of online resources outlining these assumptions, but we did feel that it was important to state these assumptions.
 
 ## ARIMA Model 
-For this project we will be using the **Autoregressive Integrated Moving Average** model and its variations to forecast the S&P 500. For each component we have a corresponding variable for which we model if there is sign of these components. Here we roughly outline the parts that make an **ARIMA** model 
+For this project we will be using the **Autoregressive Integrated Moving Average** model and its variations to forecast the S&P 500. For each component we have a corresponding variable for which we model if there is sign of these components. Here we roughly outline the parts that make an **ARIMA(p,d,q)** model 
 - **Autoregressive [AR(p)]** - a stochastic process where future values are dependent on past values signifying that past values have a linear effect on the future values.
 - **Integration [I(d)]** - when differencing is done to make a process stationary, we include the differenced value(i.e. if we took the first difference it would be I(d=1))
 - **Moving Average [MA(q)]** - a prcoess where the current value is linearly regressed on current and past white noise terms (residuals)
 
-Next we outline the steps to ensure we fit the appropriate **ARIMA** model!
+Next we outline the steps to ensure we fit the appropriate **ARIMA(p,d,q)** model!
 
 ### Stationary process and Seasonality
 The first step is checking to see if the time series object is stationary, this can be done in various methods which can also be explained as exploratory analysis since we are in essence "getting a feel" for our data. Here we include some of the processes:
@@ -90,7 +90,7 @@ The first step is checking to see if the time series object is stationary, this 
 These plots will help us in our Box-Jenkins Model estimation, as well as doing transformations such as differencing (and taking the log if necessary) of our time series objects to take into consideration non-stationarity and heteroskedasticity respectively. 
 
 ### Autocorrelation and Partial Autocorrelation Plots
-These plots play a crucial role in time series analysis, because we can estimate our **ARIMA** model based on the behaviour of these plots or justify the need to do an appropriate transformation.  
+These plots play a crucial role in time series analysis, because we can estimate our **ARIMA(p,d,q)** model based on the behaviour of these plots or justify the need to do an appropriate transformation.  
 
 We won't go into too much detail since we outlined the process in the project, but through the use of our ACF and PACF plots for our original time series we were able to make the deduction to take the first difference of our time series. Once we did that we saw that the ACF and PACF plot showed characteristics of a MA(1) model, but since we took the first difference it becomes a mixed model; **ARIMA(0, 1, 1)**
 
