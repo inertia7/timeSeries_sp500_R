@@ -1,7 +1,7 @@
 # Time Series Analysis on S&P 500 Stock Prices (1995-2015)
 
 ## ABSTRACT
-This project focuses on using univariate time series forecasting methods for the stock market index, Standard & Poor's 500 (abbreviated commonly as S&P 500, which is the notation we will use in this project). We went about the time series analysis was through using R and R studio to both predict and visualize our predictions. Along with the interactivity of plotly through the [ggplot2 package](https://github.com/tidyverse/ggplot2) we were able to create stunning visuals that help in understanding which time series forecasting method is most appropriate for your own time series analysis. 
+This project focuses on using univariate time series forecasting methods for the stock market index, Standard & Poor's 500 (abbreviated commonly as S&P 500, which is the notation we will use in this project) emphasizing on Box-Jenkins AutoRegressive Integrated Moving Average (ARIMA) modeling. We went about the time series analysis was through using R and R studio to both predict and visualize our predictions. Along with the interactivity of plotly through the [ggplot2 package](https://github.com/tidyverse/ggplot2) we were able to create stunning visuals that help in understanding which time series forecasting method is most appropriate for your own time series analysis. 
 ## Packages Required
 Here are the required packages which will ensure all the code will run properly. To make sure you have the packages we use in this project use the command(you will only have to use this once): 
 
@@ -50,10 +50,16 @@ Which will give you an error (since R considers "\" as an escape code, the corre
 
 Once you have done this you can read the csv file which contains the S&P 500 closing values for which we did our analysis on, and you can proceed to the time series analysis done through R!
 
-# Methodology 
-For our time series analysis, we chose to focus on the [Box-Jenkins](https://en.wikipedia.org/wiki/Box%E2%80%93Jenkins#Box-Jenkins_model_identification) methodology which incorporates a series of steps to ensure we  produce the best model to forecasting. 
+## Methodology 
+For our time series analysis, we chose to focus on the [Box-Jenkins](https://en.wikipedia.org/wiki/Box%E2%80%93Jenkins#Box-Jenkins_model_identification) methodology which incorporates a series of steps to ensure we  produce the best model to forecasting.
 
-The steps are roughly outlined here (although we will state that to get a better understanding other resources will provide a more in depth look at the Box-Jenkins Method):
+But before we outline the steps we would like to outline some  necessary assumptions for univariate time series analysis:
+
+- The Box-Jenkins Model assumes weakly stationarity process. 
+- The residuals are white noise (independently and identically distributed random variables) and homoscedastic
+
+
+We won't go into detail since there is already a plethora of online resources outlining these assumptions, but we did feel that it was important to state these assumptions.
 
 ### Stationary process and Seasonality
 The first step is checking to see if the time series object is stationary, this can be done in various methods which can also be explained as exploratory analysis since we are in essence "getting a feel" for our data. Here we include some of the processes:
@@ -66,6 +72,6 @@ The first step is checking to see if the time series object is stationary, this 
 These plots will help us in our Box-Jenkins Model estimation, but the most important plots that will help with model estimation are the Autocorrelation and Partial Autocorrelation Plots. 
 
 ### Autocorrelation and Partial Autocorrelation Plots
- 
+These plots play a crucial role in time series analysis, because we can estimate our 
 
 
