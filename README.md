@@ -106,11 +106,11 @@ Once we have our model we forecast the year 2015 and see how it compares to the 
 
 We won't go into = detail here but we outlined several other forecasting methods to use as comparisons. The other forecasting methods we included are:
 
-- ** Box-Cox Transformation Forecast**
-- ** Mean Forecast **
-- ** Naive Forecast **
-- ** Seasonal Naive Forecast **
-- ** Exponential Smoothing Forecast **
+- **Box-Cox Transformation Forecast**
+- **Mean Forecast**
+- **Naive Forecast**
+- **Seasonal Naive Forecast**
+- **Exponential Smoothing Forecast**
 
 These forecasting methods more concisely detailed on [HERE](https://www.otexts.org/fpp/2/3) by **Rob J Hyndman** and **George Athanasopoulos** 
 
