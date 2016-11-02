@@ -2,7 +2,7 @@
 
 ## ABSTRACT
 This project focuses on using univariate time series forecasting methods for the stock market index, Standard & Poor's 500 (abbreviated commonly as S&P 500, which is the notation we will use in this project). We went about the time series analysis was through using R and R studio to both predict and visualize our predictions. Along with the interactivity of plotly through the [ggplot2 package](https://github.com/tidyverse/ggplot2) we were able to create stunning visuals that help in understanding which time series forecasting method is most appropriate for your own time series analysis. 
-# Packages Required
+## Packages Required
 Here are the required packages which will ensure all the code will run properly. To make sure you have the packages we use in this project use the command(you will only have to use this once): 
 
 	install.packages("packageName") 
@@ -58,8 +58,8 @@ The steps are roughly outlined here (although we will state that to get a better
 ### Stationary process and Seasonality
 The first step is checking to see if the time series object is stationary, this can be done in various methods which can also be explained as exploratory analysis since we are in essence "getting a feel" for our data. Here we include some of the processes:
 
--  Plot the time series object: sometimes simply plotting the time series object can tell you if a process is stationary or not. As well as telling you if there is strong seasonal patterns!
-- Plot Decomposed time series object: decomposing allows us to view a time series object in components. Further discussion can be seen in the project, but when we decompose our time series objects we get a glimpse of its seasonal and trend components independently. 
+-  Plot the time series object: sometimes simply plotting the time series object can tell you if a process is stationary or not. As well as telling you if there are strong seasonal patterns!
+- Plot Decomposed time series object: decomposing allows us to view a time series object in components (four components see website for more information). Further discussion can be seen in the project, but when we decompose our time series objects we get a glimpse of its seasonal and trend components independently. 
 
 - Seasonal Plot: The name speaks for itself but this plot is a great way to check for seasonal components which is something common when dealing with yearly, quarterly and monthly data. 
 
