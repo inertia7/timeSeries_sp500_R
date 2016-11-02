@@ -55,10 +55,17 @@ For our time series analysis, we chose to focus on the [Box-Jenkins](https://en.
 
 The steps are roughly outlined here (although we will state that to get a better understanding other resources will provide a more in depth look at the Box-Jenkins Method):
 
-### Stationary process
+### Stationary process and Seasonality
 The first step is checking to see if the time series object is stationary, this can be done in various methods which can also be explained as exploratory analysis since we are in essence "getting a feel" for our data. Here we include some of the processes:
 
--  Plotting the time series object: sometimes simply plotting the time series object can tell you if a process is stationary or not. 
-- Decomposing a time series object allows us to view a time series object in components. Further discussion can be seen in the project, but when we decompose our time series objects we get a glimpse of its seasonal and trend components independently. 
+-  Plot the time series object: sometimes simply plotting the time series object can tell you if a process is stationary or not. As well as telling you if there is strong seasonal patterns!
+- Plot Decomposed time series object: decomposing allows us to view a time series object in components. Further discussion can be seen in the project, but when we decompose our time series objects we get a glimpse of its seasonal and trend components independently. 
+
+- Seasonal Plot: The name speaks for itself but this plot is a great way to check for seasonal components which is something common when dealing with yearly, quarterly and monthly data. 
+
+These plots will help us in our Box-Jenkins Model estimation, but the most important plots that will help with model estimation are the Autocorrelation and Partial Autocorrelation Plots. 
+
+## Autocorrelation and Partial Autocorrelation Plots
+ 
 
 
