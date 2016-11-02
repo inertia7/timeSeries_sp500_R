@@ -65,7 +65,7 @@ The first step is checking to see if the time series object is stationary, this 
 
 These plots will help us in our Box-Jenkins Model estimation, but the most important plots that will help with model estimation are the Autocorrelation and Partial Autocorrelation Plots. 
 
-## Autocorrelation and Partial Autocorrelation Plots
+### Autocorrelation and Partial Autocorrelation Plots
  
 
 
