@@ -120,7 +120,7 @@ We won't go into detail here but we outlined several other forecasting methods t
 - **Seasonal Naive Forecast**
 - **Exponential Smoothing Forecast**
 
-These forecasting methods more concisely detailed on [HERE](https://www.otexts.org/fpp/2/3) by **Rob J Hyndman** and **George Athanasopoulos** 
+These forecasting methods more concisely detailed on [Here](https://www.otexts.org/fpp/2/3) by **Rob J Hyndman** and **George Athanasopoulos** 
 ## Conclusions 
 Finally we draw conclusions using scale-dependent errors as to which model is best for forecasting our time series object!
 
@@ -130,3 +130,4 @@ Ultimately we decided that our **ARIMA(0,1,1)** was the best model at forecastin
 
 - Hyndman, Rob J., and George Athanasopoulos. ["Forecasting: Principles and Practice"](https://www.otexts.org/fpp) Otexts. N.p., May 2012. Web. 
 
+- Schmidt, Drew. [Autoplot: Graphical Methods with ggplot2](http://librestats.com/2012/06/11/autoplot-graphical-methods-with-ggplot2/) Wrathematics, my stack runneth over. June, 11, 2012. Web. 
