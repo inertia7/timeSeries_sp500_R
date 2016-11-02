@@ -50,7 +50,7 @@ Which will give you an error (since R considers "\" as an escape code, the corre
 
 Once you have done this you can read the csv file which contains the S&P 500 closing values for which we did our analysis on, and you can proceed to the time series analysis done through R!
 
-## Methodology 
+# Methodology 
 For our time series analysis we chose to use the [Box-Jenkins](https://en.wikipedia.org/wiki/Box%E2%80%93Jenkins#Box-Jenkins_model_identification) methodology which incorporates a series of steps to ensure we fit the appropriate criteria to produce the best model to forecasting our time series object. 
 
 The steps are roughly outlined here (although we will state that to get a better understanding other resources will provide a more in depth look at the Box-Jenkins Method):
