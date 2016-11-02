@@ -120,4 +120,5 @@ Ultimately we decided that our **ARIMA(0,1,1)** was the best model at forecastin
 
 ## Additional Resources
 
+- Hyndman, Rob J., and George Athanasopoulos. ["Forecasting: Principles and Practice"](https://www.otexts.org/fpp) Otexts. N.p., May 2012. Web. 
 
