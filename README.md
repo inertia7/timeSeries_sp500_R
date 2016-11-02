@@ -5,13 +5,13 @@ This project focuses on using univariate time series forecasting methods for the
 ## Packages Required
 Here are the required packages which will ensure all the code will run properly. 
 
-	- ggplot2
-	- forecast 
-	- astsa
-	- plotly 
-	- ggfortify
-	- tseries
-	- gridExtra
+	ggplot2
+	forecast 
+	astsa
+	plotly 
+	ggfortify
+	tseries
+	gridExtra
 
 To make sure you have the packages we use in this project use the command(you will only have to use this once): 
 
