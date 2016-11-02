@@ -7,7 +7,7 @@ This project focuses on using univariate time series forecasting methods for the
 
 ## Contributors
 - David Campos
-- Raul Eulogio (Project Leader)
+- Raul Eulogio 
 - Kim Specht
 - Nathan Fritter
 - Shon Inouye
