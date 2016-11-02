@@ -97,14 +97,14 @@ We won't go into too much detail since we outlined the process in the project, b
 From here we do residual diagnostics to see if our model displays residuals that are white noise. 
 
 ### Residual Diagnostics 
-We visually inspect the residual diagnostics of our model to ensure our residuals are white noise; we employ the `<tsdisplay>` to give us the standardized residuals, ACF plot of the residuals and the Ljung-Box statistics which are all explained more indepth in the project. 
+We visually inspect the residual diagnostics of our model to ensure our residuals are white noise; we employ the `tsdisplay` to give us the standardized residuals, ACF plot of the residuals and the Ljung-Box statistics which are all explained more indepth in the project. 
 
 We also included a histogram of the residuals to show that they display a fairly normally distribution which ensure we haven't violated our assumptions. 
 
 ## Forecast 
-Once we have our model we forecast the year 2015 and see how it compares to the actual values! 
+Once we have our model, we forecast the year 2015 and see how it compares to the actual values! 
 
-We won't go into = detail here but we outlined several other forecasting methods to use as comparisons. The other forecasting methods we included are:
+We won't go into detail here but we outlined several other forecasting methods to use as comparisons. The other forecasting methods we included are:
 
 - **Box-Cox Transformation Forecast**
 - **Mean Forecast**
