@@ -28,7 +28,7 @@ From here you will be able to publish your ggplotly visuals by running (our ggpl
 	plotly_POST(timeSeriesPlot, filename = "timeSeriesPlot")
 
 If ran correctly this line of code should open up a browser with your newly published plotly graph!
-# Create appropriate working directory
+### Create appropriate working directory
 Once the preliminary process of ensure your Rstudio has all parameters to ensure the code will run smoothly we suggest create an appropriate directory. For those using git we recommend using the  following line on a terminal:
 
 	git clone git@github.com:wH4teVr folder-name
