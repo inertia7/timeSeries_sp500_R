@@ -126,7 +126,7 @@ Finally we draw conclusions using scale-dependent errors as to which model is be
 
 Ultimately we decided that our **ARIMA(0,1,1)** was the best model at forecasting based on the scale-dependent errors outlined in the projcet. 
 
-## Additional Resources
+## Sources Cited
 
 - Hyndman, Rob J., and George Athanasopoulos. ["Forecasting: Principles and Practice"](https://www.otexts.org/fpp) Otexts. May 2012. Web. 
 
