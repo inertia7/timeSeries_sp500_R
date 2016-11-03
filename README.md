@@ -1,5 +1,6 @@
 # Forecasting the Stock Market 
 ## Time-Series Analysis on S&P 500 Stock Index with R (1995-2015)
+(Project can be found at: http://www.inertia7.com/projects/time-series-stock-market-r)
 
 # ABSTRACT
 This project focuses on using univariate time series forecasting methods for the stock market index, Standard & Poor's 500 (abbreviated commonly as S&P 500, which is the notation we will use in this project) emphasizing on Box-Jenkins **AutoRegressive Integrated Moving Average (ARIMA)** modeling. We went about the time series analysis was through using **R** and **R studio** to both predict and visualize our predictions. Along with the interactivity of [plotly](https://plot.ly/) through the [ggplot2 package](https://github.com/tidyverse/ggplot2) we were able to create stunning visuals that help in understanding which time series forecasting method is most appropriate for your own time series analysis. 
