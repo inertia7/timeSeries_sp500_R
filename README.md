@@ -1,5 +1,6 @@
-# Forecasting the Stock Market 
-## Time-Series Analysis on S&P 500 Stock Index with R (1995-2015)
+# Forecasting the Stock Market (R)
+## Time-Series Analysis on S&P 500 Stock Index with R 
+(Project can be found at: http://www.inertia7.com/projects/time-series-stock-market-r)
 
 # Table of Contents
 * [Abstract](#Abstract)
