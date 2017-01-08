@@ -191,7 +191,7 @@ autoplot.forecast <- function(forecast, ..., holdout=NaN){
     geom_line(colour = "turquoise4", size = 1) +
     geom_line(data=df[!is.na(df$forecast), ], aes(time, forecast), color="blue", na.rm=TRUE) +
     geom_line(data=df[!is.na(df$holdout), ], aes(time, holdout), color="red", na.rm=TRUE) +
-    scale_x_continuous("") +
+    scale_x_continuous(breaks = scales::pretty_breaks(n = 12)) +
     scale_y_continuous("") 
 }
 
