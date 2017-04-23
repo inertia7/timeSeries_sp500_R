@@ -1,6 +1,6 @@
 # Forecasting the Stock Market (R)
 ## Time-Series Analysis on S&P 500 Stock Index with R 
-(Project can be found at: http://www.inertia7.com/projects/time-series-stock-market-r)
+(Project can be found at: https://www.inertia7.com/projects/8)
 
 # Table of Contents
 * [Abstract](#Abstract)
