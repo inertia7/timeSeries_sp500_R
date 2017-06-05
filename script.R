@@ -187,6 +187,7 @@ h <- autoplot(fit_ets,
 h
 ggplotly(h)  
 
+# COMPARE FORECAST ACCURACIES ACROSS DIFFERENT METHODS USED
 accuracy(fit_arima)
 accuracy(fit_BC)
 accuracy(fit_meanf)
