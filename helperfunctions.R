@@ -78,10 +78,10 @@ plotSeason <- function(tsObject, tsObjectName){
           axis.line.x = element_line(colour="gray")) 
 }
 
-#######################################################################
-# HERE FOUND AT http://librestats.com/2012/06/11/autoplot-graphical-methods-with-ggplot2/
-# BY DREW SCHMIDT WITH SLIGHT MODIFICATIONS TO FIT OUR PLOTS
-#######################################################################
+###########################################################################################
+# HERE FOUND AT http://librestats.com/2012/06/11/autoplot-graphical-methods-with-ggplot2/ #
+# BY DREW SCHMIDT WITH SLIGHT MODIFICATIONS TO FIT OUR PLOTS                              #
+###########################################################################################
 
 
 autoplot.forecast <- function(forecast, tsObjectName, ..., holdout=NaN){
@@ -127,4 +127,4 @@ autoplot.forecast <- function(forecast, tsObjectName, ..., holdout=NaN){
 }
 
 
-#######################################################################
+###########################################################################################
