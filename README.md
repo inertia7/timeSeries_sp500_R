@@ -90,8 +90,6 @@ But before we outline the steps we would like to outline some  necessary assumpt
 - The residuals are white noise (independently and identically distributed random variables) and homoscedastic
 
 
-We won't go into detail since there is already a plethora of online resources outlining these assumptions, but we did feel that it was important to state these assumptions.
-
 ### ARIMA Model 
 For this project we will be using the **Autoregressive Integrated Moving Average** model and its variations to forecast the S&P 500. For each component we have a corresponding variable for which we model if there is sign of these components. Here we roughly outline the parts that make an **ARIMA(p,d,q)** model 
 - **Autoregressive [AR(p)]** - a stochastic process where future values are dependent on past values signifying that past values have a linear effect on the future values.
