@@ -1,0 +1,108 @@
+# CREATING FUNCTION FOR PLOTS 
+# + Time Series Plot
+# + ACF and PACF Plots
+# + Seasonal Plot
+# + Decomposed Plot 
+# + Forecast Plot
+
+plotTimeSeries <- function(tsObject, tsObjectName){
+  startYear <- start(tsObject)
+  endYear <- end(tsObject)
+  tsPlot <- autoplot(tsObject, 
+                     main = sprintf("Plot of %s Time Series (%s - %s)", 
+                                    tsObjectName, startYear[1], endYear[1])) + 
+    theme(axis.text.x = element_text(angle = 40, hjust = 1),
+          panel.background = element_rect(fill = "gray98"),
+          axis.line.x = element_line(colour="gray"),
+          axis.line.y = element_line(colour="gray")) + 
+    scale_x_continuous(breaks = scales::pretty_breaks(n = 24)) + 
+    labs(x = "Year", y = "Closing Values")
+  return(suppressWarnings(tsPlot))
+}
+
+# FUNCTION FOR ACF AND PACF PLOTS 
+plotAcfPacf <- function(tsObject, tsObjectName){
+  a <- autoplot(acf(tsObject, plot = FALSE), 
+                conf.int.fill = '#0000FF', 
+                conf.int.value = 0.95, conf.int.type = 'ma') +
+    theme(panel.background = element_rect(fill = "gray98"),
+          axis.line.y   = element_line(colour="gray"),
+          axis.line.x = element_line(colour="gray")) + 
+    ggtitle(sprintf("ACF plot of %s", tsObjectName))
+  
+  b <- autoplot(pacf(tsObject, plot = FALSE), 
+                conf.int.fill = '#0000FF', 
+                conf.int.value = 0.95, conf.int.type = 'ma') + 
+    theme(panel.background = element_rect(fill = "gray98"),
+          axis.line.y   = element_line(colour="gray"),
+          axis.line.x = element_line(colour="gray")) + labs(y="PACF") + 
+    ggtitle(sprintf("PACF plot of %s", tsObjectName))
+  
+  grid.arrange(a, b)
+}
+
+# Decomposed Plot
+plotSTL <- function(tsObject, tsObjectName){
+  autoplot(stl(tsObject, s.window = "periodic"),
+           main = sprintf("Decomposition Plot of %s", tsObjectName),
+           ts.colour = "turquoise4") +
+    theme(panel.background = element_rect(fill = "gray98"),
+          axis.line.y   = element_line(colour="gray"),
+          axis.line.x = element_line(colour="gray"))
+}
+# SEASONAL Plot
+
+plotSeason <- function(tsObject, tsObjectName){
+  ggseasonplot(tsObject, xlab="Year",
+               main=sprintf("Seasonal Plot of %s", tsObjectName),  
+               year.labels=TRUE, year.labels.left=TRUE, 
+               col=1:20, pch=19) +
+    theme(panel.background = element_rect(fill = "gray98"),
+          axis.line.y = element_line(colour="gray"),
+          axis.line.x = element_line(colour="gray")) 
+}
+
+# NEXT WE CREATE AN OBJECT THAT WILL GIVE US THE GGPLOT2 OBJECTS WE WANT 
+#######################################################################
+# HERE FOUND AT http://librestats.com/2012/06/11/autoplot-graphical-methods-with-ggplot2/
+# BY DREW SCHMIDT WITH SLIGHT MODIFICATIONS TO FIT OUR PLOTS
+#######################################################################
+
+
+autoplot.forecast <- function(forecast, tsObjectName, ..., holdout=NaN){
+  # data wrangling
+  time <- attr(forecast$x, "tsp")
+  time <- seq(time[1], attr(forecast$mean, "tsp")[2], by=1/time[3])
+  lenx <- length(forecast$x)
+  lenmn <- length(forecast$mean)
+  
+  df <- data.frame(time=time,
+                   x=c(forecast$x, forecast$mean),
+                   x2=c(forecast$x, rep(NA, lenmn-length(holdout)), holdout),
+                   forecast=c(rep(NA, lenx), forecast$mean),
+                   low1=c(rep(NA, lenx), forecast$lower[, 1]),
+                   upp1=c(rep(NA, lenx), forecast$upper[, 1]),
+                   low2=c(rep(NA, lenx), forecast$lower[, 2]),
+                   upp2=c(rep(NA, lenx), forecast$upper[, 2]),
+                   holdout=c(rep(NA, lenx+lenmn-length(holdout)), holdout)
+  )
+  
+  ggplot(df, aes(time, x)) +
+    geom_ribbon(aes(ymin=low2, ymax=upp2), fill="yellow", na.rm=TRUE) +
+    geom_ribbon(aes(ymin=low1, ymax=upp1), fill="orange", na.rm=TRUE) +
+    geom_line(data=df, aes(time, x2), color="red")+
+    geom_line(colour = "turquoise4", size = 1) +
+    geom_line(data=df[!is.na(df$forecast), ], aes(time, forecast), color="blue", na.rm=TRUE) +
+    geom_line(data=df[!is.na(df$holdout), ], aes(time, holdout), color="red", na.rm=TRUE) +
+    scale_x_continuous(breaks = scales::pretty_breaks(n = 12)) +
+    scale_y_continuous("")  +
+    theme(axis.text.x = element_text(angle = 40, hjust = 1),
+          panel.background = element_rect(fill = "gray98"),
+          axis.line.y   = element_line(colour="gray"),
+          axis.line.x = element_line(colour="gray")) + 
+    labs(x = "Year", y = "Closing Values") + 
+    ggtitle(sprintf('%s Forecast Plot of S&P 500', tsObjectName))
+}
+
+
+#######################################################################
