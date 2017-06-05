@@ -40,6 +40,9 @@ You will have now downloaded the package so within your script you run:
 	require(packageName)
 
 This must be done before each **Rstudio** session, and written at the start of every script to ensure your code will be easily reproducible!
+
+**IMPORTANT TO NOTE** (Updated 6/4/2017): Script was changed to include a helper function script to reduce code significantly. Check `helperfunction.R` to see how the functions work. 
+
 ## <a name="Steps-Required"></a>Steps Required 
 
 ### Create plotly Account (Optional)	
