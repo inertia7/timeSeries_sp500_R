@@ -1,6 +1,6 @@
 # FORECASTING THE STOCK MARKET (R) script
 # Project and visuals can be found at 
-# http://www.inertia7.com/projects/time-series-stock-market-r
+# https://www.inertia7.com/projects/8
 
 # SET THE WORKING DIRECTORY APPROPRIATELY
 setwd('~/set/approp/wd/')
