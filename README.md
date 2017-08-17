@@ -137,6 +137,15 @@ Finally we draw conclusions using scale-dependent errors as to which model is be
 
 Ultimately we decided that our **ARIMA(0,1,1)** was the best model at forecasting based on the scale-dependent errors outlined in the projcet. 
 
+| Model | ME | RMSE | MAE | MPE | MAPE | MASE | ACF1 | 
+|-----------|--------------|----------|----------|-------------|----------|-----------|--------------|
+| fit_arima |  -0.00911296 | 33.85289 | 24.84955 | -0.00840343 | 2.141218 | 0.1310854 |  -0.01137429 |
+| fit_BC    |  6.808873    | 39.28348 | 30.16598 | 0.282006    | 2.567669 | 0.1591304 |   0.4091459  |
+| fit_meanf |-9.668655e-15 | 319.3598 | 244.9373 | -9.110565   | 24.74398 | 1.292084  |   0.9666459  |
+| fit_naive |  6.624059    | 39.30052 | 30.14866 | 0.5581768   |  2.66548 | 0.1590391 |   0.4170651  |
+| fit_snaive |  73.06769 | 219.6302 | 189.5676 | 4.738094 | 16.6731 |    1 0 | .9647997 |
+| fit_ets   |  2.648054    | 36.65711 | 27.74495 | 0.2519063   | 2.409392 | 0.1463591 |   0.1592457  |
+
 ## <a name="Sources-Cited"></a>Sources Cited
 
 - Hyndman, Rob J., and George Athanasopoulos. ["Forecasting: Principles and Practice"](https://www.otexts.org/fpp) Otexts. May 2012. Web. 
