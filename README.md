@@ -59,6 +59,11 @@ From here you will be able to publish your **ggplotly** visuals by running (our 
 	plotly_POST(timeSeriesPlot, filename = "timeSeriesPlot")
 
 If ran correctly this line of code should open up a browser with your newly published **plotly** graph!
+
+**UPDATE** (08/17/2017): With `plotly version2`, `plotly_POST` has been **deprecated** use instead:
+
+	api_create(timeSeriesPlot, filename = "timeSeriesPlot", fileopt='overwrite')
+
 ### Create appropriate working directory
 Once the preliminary process of ensure your **Rstudio** has all parameters to ensure the code will run smoothly we suggest create an appropriate directory. For those using git we recommend using the  following line on a terminal:
 
