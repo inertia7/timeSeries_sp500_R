@@ -37,7 +37,7 @@ To make sure you have the packages we use in this project use the command(you wi
 
 You will have now downloaded the package so within your script you run: 
 
-	require(packageName)
+	library(packageName)
 
 This must be done before each **Rstudio** session, and written at the start of every script to ensure your code will be easily reproducible!
 
