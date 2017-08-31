@@ -35,8 +35,8 @@ plotAcfPacf <- function(tsObject, tsObjectName){
   
   
   a <- autoplot(acf(tsObject, plot = FALSE), 
-                ts.colour = 'turquoise4',
-                conf.int.fill = '#0000FF', 
+                colour = 'turquoise4',
+                conf.int.fill = '#4C4CFF',
                 conf.int.value = 0.95, conf.int.type = 'ma') +
     theme(panel.background = element_rect(fill = "gray98"),
           axis.line.y   = element_line(colour="gray"),
@@ -44,8 +44,8 @@ plotAcfPacf <- function(tsObject, tsObjectName){
     ggtitle(sprintf("ACF plot of %s", tsObjectName))
   
   b <- autoplot(pacf(tsObject, plot = FALSE),
-                ts.colour = 'turquoise4',
-                conf.int.fill = '#0000FF', 
+                colour = 'turquoise4',
+                conf.int.fill = '#4C4CFF', 
                 conf.int.value = 0.95, conf.int.type = 'ma') + 
     theme(panel.background = element_rect(fill = "gray98"),
           axis.line.y   = element_line(colour="gray"),
