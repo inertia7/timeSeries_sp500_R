@@ -3,30 +3,30 @@
 # https://www.inertia7.com/projects/8
 
 # SET THE WORKING DIRECTORY APPROPRIATELY
-setwd('~/set/approp/wd/')
+setwd('~/set/approp/working_dir')
 
 #RUN THESE COMMANDS IF THESE THIRD PARTY PACKAGES HAVE NOT BEEN DOWNLOADED YET
 
 # install.packages("ggplot2")
 # install.packages("forecast")
-# install.packages("astsa")
 # install.packages("plotly")
 # install.packages("ggfortify")
 # install.packages("tseries")
-
+# install.packages("gridExtra")
+# install.packages("docstring")
 
 # LOAD YOUR PACKAGES
 
 library(ggplot2)
 library(forecast)
-library(astsa)
 library(plotly)
 library(ggfortify)
 library(tseries)
 library(gridExtra)
+library(docstring)
 # Source the helper functions script
-source('helperfunctions.R')
-
+source('helper_functions.R')
+# NOTE: For more information on helper functions use ?function_name
 # LOAD DATA
 dataMaster <- read.csv("data_master_1.csv")
 attach(dataMaster)
@@ -42,7 +42,7 @@ adf.test(sp_500)
 # for stationarity. 
 
 # TIME SERIES PLOT OF S&P
-tsSp <- plotTimeSeries(sp_500, 'S&P 500')
+tsSp <- plot_time_series(sp_500, 'S&P 500')
 
 tsSp
 ggplotly(tsSp)
@@ -51,30 +51,29 @@ ggplotly(tsSp)
 sp500_TR <- ts(sp_500, start=c(1995, 1), end=c(2014, 12), freq=12)
 
 
-plotTimeSeries(sp_500, 'S&P 500 Training Set')
+plot_time_series(sp_500, 'S&P 500 Training Set')
 # Remove comment if you wish to publish plot on ploty
 # See GitHub repo for more details
 # plotly_POST(timeSeriesPlot, filename = "timeSeriesPlot")
 
 # DECOMPOSING TIME SERIES
-stl <- plotSTL(sp500_TR, 'S&P 500')
+sp500_stl <- plot_decomp(sp500_TR, 'S&P 500')
 
-stl
-ggplotly(stl)
+sp500_stl
+ggplotly(sp500_stl)
 
 # SEASONAL PLOT 
-sp <- plotSeason(sp500_TR, 'S&P 500')
+sp <- plot_seasonal(sp500_TR, 'S&P 500')
 
 sp
 ggplotly(sp)
 
 # DIAGNOSING ACF AND PACF PLOTS
-plotAcfPacf(sp500_TR, 'S&P 500')
-
+plot_acf_pacf(sp500_TR, 'S&P 500')
 # TRANSFORMING OUR DATA TO ADJUST FOR NON STATIONARY
 diff <- diff(sp_500)
 
-tsDiff <- plotTimeSeries(diff, 'First Difference')
+tsDiff <- plot_time_series(diff, 'First Difference')
 tsDiff
 ggplotly(tsDiff)
 
@@ -86,10 +85,10 @@ adf.test(diff)
 # Let's begin analysis with visually inspecting ACF and PACF plots
 
 # DIAGNOSING ACF AND PACF PLOTS FOR DIFFERENCED TIME SERIES OBJECT
-plotAcfPacf(diff, 'First Difference Time Series Object')
+plot_acf_pacf(diff, 'First Difference Time Series Object')
 
 # SEASONAL PLOT FOR DIFFERENCED TIME SERIES OBJECT
-spDiff <- plotSeason(diff, 'First Difference Time Series Object')
+spDiff <- plot_seasonal(diff, 'First Difference Time Series Object')
 
 spDiff
 ggplotly(spDiff)
@@ -136,7 +135,7 @@ act_sp500_2015_ts
 fit_arima <- forecast(fit, h = 12)
 forSp500 <- autoplot(fit_arima, 
                      holdout = act_sp500_2015_ts, 
-                     tsObjectName = 'ARIMA')
+                     ts_object_name = 'ARIMA')
 
 forSp500
 ggplotly(forSp500)
@@ -150,7 +149,7 @@ fit_BC <- forecast(fit_sp500_BC,h=12,lambda=lambda)
 
 s <- autoplot(fit_BC, 
               holdout = act_sp500_2015_ts,
-              tsObjectName = 'Box-Cox Transformation')
+              ts_object_name = 'Box-Cox Transformation')
 s
 ggplotly(s)
 
@@ -158,7 +157,7 @@ ggplotly(s)
 fit_meanf <- forecast(meanf(sp500_TR, h = 12))
 e <- autoplot(fit_meanf, 
               holdout = act_sp500_2015_ts,
-              tsObjectName = 'Mean Forecast') 
+              ts_object_name = 'Mean Forecast') 
 e
 ggplotly(e)
 
@@ -166,7 +165,7 @@ ggplotly(e)
 fit_naive <- forecast(naive(sp500_TR, h = 12))
 f <- autoplot(fit_naive, 
               holdout = act_sp500_2015_ts,
-       tsObjectName = "Naive Forecast") 
+              ts_object_name = "Naive Forecast") 
 f
 ggplotly(f)
 
@@ -174,7 +173,7 @@ ggplotly(f)
 fit_snaive <- forecast(snaive(sp500_TR, h = 12))
 g <- autoplot(fit_snaive, 
               holdout = act_sp500_2015_ts,
-              tsObjectName = "Seasonal Naive")
+              ts_object_name = "Seasonal Naive")
 g
 ggplotly(g)  
 
@@ -182,7 +181,7 @@ ggplotly(g)
 fit_ets <- forecast(ets(sp500_TR), h = 12)
 h <- autoplot(fit_ets, 
               holdout=act_sp500_2015_ts,
-              tsObjectName = "Exponential Smoothing")
+              ts_object_name = "Exponential Smoothing")
 
 h
 ggplotly(h)  
@@ -203,15 +202,15 @@ accuracy(fit_ets)
 # to see if there is correlation within the residuals.
 # If there is we can continue adding on to our ARIMA model with a gARCH 
 # aspect that helps in the volatity of our data.
-squared.resARIMA <- fit$residuals^2
+squared_res_fit <- fit$residuals^2
 
-sqRes <- plotTimeSeries(squared.resARIMA, "Squared Residuals")
+sq_res <- plot_time_series(squared_res_fit, "Squared Residuals")
 
-sqRes
-ggplotly(sqRes)
+sq_res
+ggplotly(sq_res)
 
 # ACF AND PACF PLOT FOR SQUARED RESIDUALS 
-plotAcfPacf(squared.resARIMA, 'S&P 500 Residuals^2')
+plot_acf_pacf(squared_res_fit, 'S&P 500 Residuals^2')
 # The acf plot shows one significant lag, as does the pacf, 
 # but that isn't enough to suggest we need GARCH modeling
 gfit <- garch(fit$residuals, order = c(1,1), trace = TRUE)
