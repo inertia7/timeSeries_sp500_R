@@ -2,9 +2,6 @@
 # Project and visuals can be found at 
 # https://www.inertia7.com/projects/8
 
-# SET THE WORKING DIRECTORY APPROPRIATELY
-setwd('~/set/approp/working_dir')
-
 #RUN THESE COMMANDS IF THESE THIRD PARTY PACKAGES HAVE NOT BEEN DOWNLOADED YET
 
 # install.packages("ggplot2")
@@ -14,6 +11,7 @@ setwd('~/set/approp/working_dir')
 # install.packages("tseries")
 # install.packages("gridExtra")
 # install.packages("docstring")
+# install.packages("here")
 
 # LOAD YOUR PACKAGES
 
@@ -24,11 +22,18 @@ library(ggfortify)
 library(tseries)
 library(gridExtra)
 library(docstring)
-# Source the helper functions script
-source('helper_functions.R')
+library(here)
+# Rproj should be created before running script
+here()
+# Output should be:
+# "/working/directory/timeSeries_sp500_R"
+
+# Source the helper functions script to load custom function
+source(here("src",'helper_functions.R'))
+
 # NOTE: For more information on helper functions use ?function_name
 # LOAD DATA
-dataMaster <- read.csv("data_master_1.csv")
+dataMaster <- read.csv(here("data", "data_master_1.csv"))
 attach(dataMaster)
 
 # EXPLORATORY ANALYSIS
