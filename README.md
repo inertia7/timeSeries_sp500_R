@@ -21,15 +21,19 @@ This project focuses on using univariate time series forecasting methods for the
 - Shon Inouye
 
 ## <a name="Packages-Required"></a>Packages Required
-Here are the required packages which will ensure all the code will run properly. 
+
+Remember to open `Rproject` for project to run smoothly (Can be found under `file > Open Project...`). Here are the required packages which will ensure all the code will run properly. 
 
 	ggplot2
 	forecast 
-	astsa
 	plotly 
 	ggfortify
 	tseries
 	gridExtra
+	ggfortify
+	here
+	docstrings
+
 
 To make sure you have the packages we use in this project use the command(you will only have to use this once): 
 
@@ -41,7 +45,7 @@ You will have now downloaded the package so within your script you run:
 
 This must be done before each **Rstudio** session, and written at the start of every script to ensure your code will be easily reproducible!
 
-**IMPORTANT TO NOTE** (Updated 6/4/2017): Script was changed to include a helper function script to reduce code significantly. Check `helperfunction.R` to see how the functions work. 
+**IMPORTANT TO NOTE** (Updated 6/4/2017): Script was changed to include a helper function script to reduce code significantly. Check `helper_functions.R` to see how the functions work or use `?function_name` to see documentation on respective function.  
 
 ## <a name="Steps-Required"></a>Steps Required 
 
@@ -69,22 +73,8 @@ Once the preliminary process of ensure your **Rstudio** has all parameters to en
 
 	git clone git@github.com:wH4teVr folder-name
 
-But if you are doing it manually you choose the "Clone or download" button and choose "Download ZIP". From here you must take note of where the file is downloaded, once you are able to find the file location you must set the appropriate working directory. 
+But if you are doing it manually you choose the "Clone or download" button and choose "Download ZIP". From here assuming you opened `Rstudio` and used the created project the `here` package will ensure that you are in the correct working directory without using `setwd()`. 
 
-For this example we set the file into "/user/home/myProjects/timeSeriesR" so recall we have to set the working directory in **Rstudio** or you will receive errors especially when trying to read in the csv file. Therefore you run at the stop of your script:
-For linux:
-
-	setwd("/user/home/myProjects/timeSeriesR")
-
-For windows(Important when finding directorys you will have):
-
-	C:\home\myDocuments\myProjects\timeSeriesR
-
-Which will give you an error (since R considers "\" as an escape code, the correct form is:
-
-	setwd("C:/home/myDocuments/myProjects/timeSeriesR")
-
-Once you have done this you can read the csv file which contains the S&P 500 closing values for which we did our analysis on, and you can proceed to the time series analysis done through R!
 
 ## <a name="Methodology"></a>Methodology 
 For our time series analysis, we chose to focus on the [Box-Jenkins](https://en.wikipedia.org/wiki/Box%E2%80%93Jenkins#Box-Jenkins_model_identification) methodology which incorporates a series of steps to ensure we  produce the best model to forecasting. We used the years 1995 to 2014, withholding 2015 so that we can compare the forecast.
