@@ -1,5 +1,14 @@
 # Helper Function Script
 
+library(ggplot2)
+library(forecast)
+library(plotly)
+library(ggfortify)
+library(tseries)
+library(gridExtra)
+library(docstring)
+library(here)
+
 # Contains functions that create ggplot2 plots of integral time series plots 
 # use ?function_name for more details. 
 

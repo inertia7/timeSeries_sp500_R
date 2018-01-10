@@ -14,14 +14,6 @@
 # install.packages("here")
 
 # LOAD YOUR PACKAGES
-
-library(ggplot2)
-library(forecast)
-library(plotly)
-library(ggfortify)
-library(tseries)
-library(gridExtra)
-library(docstring)
 library(here)
 # Rproj should be created before running script
 here()
@@ -138,19 +130,22 @@ act_sp500_2015_ts
 # METHOD CHOSEN THROUGH BOX JENKINS METHODOLOGY WAS ARIMA(0,1,1) WITH DRIFT
 ## ARIMA MODEL CHOSEN 
 fit_arima <- forecast(fit, h = 12)
+saveRDS(fit_arima, file = here("models", 'arima.rds'))
+
 forSp500 <- autoplot(fit_arima, 
                      holdout = act_sp500_2015_ts, 
                      ts_object_name = 'ARIMA')
 
 forSp500
 ggplotly(forSp500)
-
 # OTHER TRANSFORMATIONS
 
 ## BOX COX TRANSFORMATION
 lambda <- BoxCox.lambda(sp500_TR)
 fit_sp500_BC <- ar(BoxCox(sp500_TR,lambda))
+
 fit_BC <- forecast(fit_sp500_BC,h=12,lambda=lambda)
+saveRDS(fit_BC, file = here("models", 'box_cox.rds'))
 
 s <- autoplot(fit_BC, 
               holdout = act_sp500_2015_ts,
@@ -158,8 +153,20 @@ s <- autoplot(fit_BC,
 s
 ggplotly(s)
 
+# NEURAL NETWORKS
+fit_sp500_net <- nnetar(sp500_TR, lambda = lambda) # Using BC lambda
+fit_net <- forecast(fit_sp500_net, h = 12, PI = TRUE)
+saveRDS(fit_net, file = here("models", 'neural_net.rds'))
+n <- autoplot(fit_net, 
+              holdout = act_sp500_2015_ts,
+              ts_object_name = 'Neural Networks Forecast')
+n
+ggplotly(s)
+
 # MEAN FORECAST METHOD
-fit_meanf <- forecast(meanf(sp500_TR, h = 12))
+fit_meanf <- meanf(sp500_TR, h = 12)
+saveRDS(fit_meanf, file = here("models", 'meanf.rds'))
+
 e <- autoplot(fit_meanf, 
               holdout = act_sp500_2015_ts,
               ts_object_name = 'Mean Forecast') 
@@ -167,7 +174,8 @@ e
 ggplotly(e)
 
 # NAIVE METHOD
-fit_naive <- forecast(naive(sp500_TR, h = 12))
+fit_naive <- naive(sp500_TR, h = 12)
+saveRDS(fit_naive, file = here("models", 'naive.rds'))
 f <- autoplot(fit_naive, 
               holdout = act_sp500_2015_ts,
               ts_object_name = "Naive Forecast") 
@@ -175,15 +183,18 @@ f
 ggplotly(f)
 
 # SEASONAL NAIVE METHOD
-fit_snaive <- forecast(snaive(sp500_TR, h = 12))
+fit_snaive <- snaive(sp500_TR, h = 12)
+saveRDS(fit_snaive, file = here("models", 'snaive.rds'))
 g <- autoplot(fit_snaive, 
               holdout = act_sp500_2015_ts,
               ts_object_name = "Seasonal Naive")
 g
 ggplotly(g)  
 
+
 # EXPONENTIAL SMOOTHING METHOD
 fit_ets <- forecast(ets(sp500_TR), h = 12)
+saveRDS(fit_ets, file = here("models", 'ets.rds'))
 h <- autoplot(fit_ets, 
               holdout=act_sp500_2015_ts,
               ts_object_name = "Exponential Smoothing")
@@ -194,6 +205,7 @@ ggplotly(h)
 # COMPARE FORECAST ACCURACIES ACROSS DIFFERENT METHODS USED
 accuracy(fit_arima)
 accuracy(fit_BC)
+accuracy(fit_net)
 accuracy(fit_meanf)
 accuracy(fit_naive)
 accuracy(fit_snaive)
