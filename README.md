@@ -25,7 +25,7 @@ This project focuses on using univariate time series forecasting methods for the
 
 ## <a name="Packages-Required"></a>Packages Required
 
-**IMPORTANT TO NOTE** (Updated 1/11/2018): Script was changed to include package `packrat` which will act as a version control. So once you clone this repo and open in *Rstudio*, select in *File* - *Open Projeect in new Sesssion...*, upon opening the existing project, `timeSeries_sp500_R.Rproj` `packrat` will automatically download all dependecies. 
+**IMPORTANT TO NOTE** (Updated 1/11/2018): Script was changed to include package `packrat` which will act as a version control. So once you clone this repo and open in *Rstudio*, select in *File* - *Open Projeect in new Sesssion...*, upon opening the existing project, `timeSeries_sp500_R.Rproj`, `packrat` will automatically download all dependecies. 
 
 Once `packrat` is done you should be prompted with:
 
