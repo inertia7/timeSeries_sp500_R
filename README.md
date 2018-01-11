@@ -25,30 +25,14 @@ This project focuses on using univariate time series forecasting methods for the
 
 ## <a name="Packages-Required"></a>Packages Required
 
-Remember to open `Rproject` for project to run smoothly (Can be found under `file > Open Project...`). Here are the required packages which will ensure all the code will run properly.
+**IMPORTANT TO NOTE** (Updated 1/11/2018): Script was changed to include package `packrat` which will act as a version control. So once you clone this repo and open in *Rstudio*, select in *File* - *Open Projeect in new Sesssion...*, upon opening the existing project, `timeSeries_sp500_R.Rproj` `packrat` will automatically download all dependecies. 
 
-	ggplot2
-	forecast
-	plotly
-	ggfortify
-	tseries
-	gridExtra
-	ggfortify
-	here
-	docstrings
+Once `packrat` is done you should be prompted with:
+
+	Restarting R session...
 
 
-To make sure you have the packages we use in this project use the command(you will only have to use this once):
-
-	install.packages("packageName")
-
-You will have now downloaded the package so within your script you run:
-
-	library(packageName)
-
-This must be done before each **Rstudio** session, and written at the start of every script to ensure your code will be easily reproducible!
-
-**IMPORTANT TO NOTE** (Updated 6/4/2017): Script was changed to include a helper function script to reduce code significantly. Check `helper_functions.R` to see how the functions work or use `?function_name` to see documentation on respective function.  
+Once this happens a new *Rstudio* session will appear and all scripts should work. 
 
 ## <a name="shiny-dashboard"></a>Shiny Dashboard
 
