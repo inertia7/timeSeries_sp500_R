@@ -123,7 +123,7 @@ These forecasting methods more concisely detailed on [Here](https://www.otexts.o
 Finally we draw conclusions using scale-dependent errors as to which model is best for forecasting our time series object!
 
 | Model |  MAE | MPE | MAPE | MASE | ACF1 | Theil's U |
-|-------|-------|-------|-------|-------|-------|
+|-------|------|-----|------|------|------|-----|
 | ARIMA | 119.31 |  2.761 | 5.089 | 0.629 |  0.866 | 2.877 |
 | Box-Cox Transformation | 606.664 | 26.294 | 26.294 | 3.200 | 0.903 | 12.826 |
 | Exponential Smoothing | 155.624 | 3.668 | 6.586 | 0.821 | 0.889 | 3.842 |
