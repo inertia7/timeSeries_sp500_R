@@ -94,7 +94,7 @@ we start our analysis by plotting our time series object to give us a visual bas
 We can quickly see that our time-series has instances of both positive and negative trend. Overall, it is very volatile, which tells us that we will have transform the data in order for the **Box-Jenkins Methodology** to predict with better accuracy.
 
 ## Testing for Stationarity
-We will utilize a few statistical tests to test for stationarity.
+We will utilize a few statistical tests to test for stationarity. We must be weary of our model having a *unit root*, this will lead to non-stationary processes.
 
 	Box.test(sp_500, lag = 20, type = 'Ljung-Box')
 
@@ -107,7 +107,7 @@ We will utilize a few statistical tests to test for stationarity.
 	data:  sp500_training
 	X-squared = 2024.8, df = 20, p-value < 2.2e-16
 
-Now we will utilize the **Augmented Dickey-Fuller Test** for stationarity.
+Now we will utilize the **Augmented Dickey-Fuller Test** for stationarity. The null hypothesis states that large p-values indicate non-stationarity and smaller p values indicate stationarity (We will be using 0.05 as our alpha value). 
 
 	adf.test(sp_500)
 
