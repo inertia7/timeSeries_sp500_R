@@ -122,15 +122,15 @@ These forecasting methods more concisely detailed on [Here](https://www.otexts.o
 ## Conclusions
 Finally we draw conclusions using scale-dependent errors as to which model is best for forecasting our time series object!
 
-| Model | RMSE | MAE | MPE | MAPE | MASE | ACF1 | Theil's U |
-|-------|------|-----|-----|------|------|------|-------|
-| ARIMA | 55.213 | 45.611 | -0.331 | 2.249 | 0.241 |  0.695 | 1.323 |
-| Box-Cox Transformation | 235.805 | 213.268 | 10.388 | 10.388 | 1.125 | 0.601 | 5.593 |
-| Neural Network | 43.853 | 38.108 | 0.431 | 1.867 | 0.201 | 0.420 | 1.03 |
-| Mean Forecast Method | 868.128 | 866.998 | 42.255 | 42.255 | 4.574 | 0.546 | 19.708 |
-| Naive Forecast Method | 44.356 | 37.086 | 0.090 | 1.823 | 0.196 | 0.546 | 1.051 |
-| Seasonal Naive Forecast Method | 154.322 | 129.230 | 5.883 |  6.262 | 0.682 | 0.770 | 3.32 |
-| Exponential Smoothing | 67.125 | 46.160 | -2.256 | 2.302 | 0.244 | 0.650 | 1.603 |
+| Model |  RMSE | MAE | MPE | MAPE | MASE | ACF1 | Theil's U |
+|-------|-------|-------|-------|-------|-------|-------|
+| ARIMA | 165.054 | 119.31 |  2.761 | 5.089 | 0.629 |  0.866 | 2.877 |
+| Box-Cox Transformation | 712.993 | 606.664 | 26.294 | 26.294 | 3.200 | 0.903 | 12.826 |
+| Exponential Smoothing | 221.442 | 155.624 | 3.668 | 6.586 | 0.821 | 0.889 | 3.842 |
+| Mean Forecast Method | 1043.815 | 1023.667 | 45.944 | 45.944 | 5.400 | 0.887 | 19.516 |
+| Naive Forecast Method | 259.020 | 183.291 | 6.472 | 7.690 | 0.967 | 0.887 | 4.476 |
+| Seasonal Naive Forecast Method | 339.903 | 280.988 | 12.001 | 12.127 | 1.482 | 0.898 | 6.032 |
+| Neural Network | 579.195 | 407.790  | 16.483 | 17.028 | 2.151 | 0.907 | 10.049 |
 
 Ultimately we decided that our **ARIMA(0,1,1)** was the best model at forecasting based on the scale-dependent errors outlined in the project.
 
