@@ -56,7 +56,7 @@ ggplotly(sp)
 # DIAGNOSING ACF AND PACF PLOTS
 plot_acf_pacf(sp500_training, 'S&P 500')
 # TRANSFORMING OUR DATA TO ADJUST FOR NON STATIONARY
-sp500_diff <- diff(sp_500)
+sp500_diff <- diff(sp500_training)
 
 tsDiff <- plot_time_series(sp500_diff, 'First Difference')
 tsDiff
