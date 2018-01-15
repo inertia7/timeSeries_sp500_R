@@ -109,12 +109,13 @@ residFit <- ggplot(data=fit, aes(residuals(fit))) +
 residFit
 
 # TEST SET THAT WE WILL COMPARE OUR FORECAST AGAINST 
-sp500_test <- window(sp_500, 2015, c(2015, 12))
+sp500_test <- read.csv(here("data", "test_data.csv"))
+sp500_test <- ts(sp500_test$Adj.Close, start = c(2015, 1), frequency = 12)
 
 # FORECASTING
 # METHOD CHOSEN THROUGH BOX JENKINS METHODOLOGY WAS ARIMA(0,1,1) WITH DRIFT
 ## ARIMA MODEL CHOSEN 
-fit_arima <- forecast(fit, h = 12)
+fit_arima <- forecast(fit, h = 36)
 
 # Will download the rds file only if its not present in the models directory 
 if (is.null(here("models", 'arima.rds'))){
@@ -133,7 +134,7 @@ ggplotly(forSp500)
 lambda <- BoxCox.lambda(sp500_training)
 fit_sp500_BC <- ar(BoxCox(sp500_training,lambda))
 
-fit_BC <- forecast(fit_sp500_BC,h=12,lambda=lambda)
+fit_BC <- forecast(fit_sp500_BC,h=36,lambda=lambda)
 ggtsdiag_custom(fit_sp500_BC, 'Box-Cox Transformation (AR(2))')
 # Will download the rds file only if its not present in the models directory 
 if (is.null(here("models", 'box_cox.rds'))){
@@ -146,66 +147,8 @@ s <- autoplot(fit_BC,
 s
 ggplotly(s)
 
-# NEURAL NETWORKS
-fit_sp500_net <- nnetar(sp500_training, lambda = lambda) # Using BC lambda
-fit_net <- forecast(fit_sp500_net, h = 12, PI = TRUE)
-
-# Will download the rds file only if its not present in the models directory 
-if (is.null(here("models", 'box_cox.rds'))){
-  saveRDS(fit_net, file = here("models", 'neural_net.rds'))
-}
-
-n <- autoplot(fit_net, 
-              holdout = sp500_test,
-              ts_object_name = 'Neural Networks Forecast')
-n
-ggplotly(s)
-
-# MEAN FORECAST METHOD
-fit_meanf <- meanf(sp500_training, h = 12)
-
-# Will download the rds file only if its not present in the models directory 
-if (is.null(here("models", 'meanf.rds'))){
-  saveRDS(fit_meanf, file = here("models", 'meanf.rds'))
-}
-
-e <- autoplot(fit_meanf, 
-              holdout = sp500_test,
-              ts_object_name = 'Mean Forecast') 
-e
-ggplotly(e)
-
-# NAIVE METHOD
-fit_naive <- naive(sp500_training, h = 12)
-
-# Will download the rds file only if its not present in the models directory 
-if (is.null(here("models", 'naive.rds'))){
-  saveRDS(fit_naive, file = here("models", 'naive.rds'))
-}
-
-f <- autoplot(fit_naive, 
-              holdout = sp500_test,
-              ts_object_name = "Naive Forecast") 
-f
-ggplotly(f)
-
-# SEASONAL NAIVE METHOD
-fit_snaive <- snaive(sp500_training, h = 12)
-
-# Will download the rds file only if its not present in the models directory 
-if (is.null(here("models", 'snaive.rds'))){
-  saveRDS(fit_snaive, file = here("models", 'snaive.rds'))
-}
-
-g <- autoplot(fit_snaive, 
-              holdout = sp500_test,
-              ts_object_name = "Seasonal Naive")
-g
-ggplotly(g)  
-
-
 # EXPONENTIAL SMOOTHING METHOD
-fit_ets <- forecast(ets(sp500_training), h = 12)
+fit_ets <- forecast(ets(sp500_training), h = 36)
 
 # Will download the rds file only if its not present in the models directory 
 if (is.null(here("models", 'ets.rds'))){
@@ -219,15 +162,71 @@ h <- autoplot(fit_ets,
 h
 ggplotly(h)  
 
+# MEAN FORECAST METHOD
+fit_meanf <- meanf(sp500_training, h = 36)
+
+# Will download the rds file only if its not present in the models directory 
+if (is.null(here("models", 'meanf.rds'))){
+  saveRDS(fit_meanf, file = here("models", 'meanf.rds'))
+}
+
+e <- autoplot(fit_meanf, 
+              holdout = sp500_test,
+              ts_object_name = 'Mean Forecast') 
+e
+ggplotly(e)
+
+# NAIVE METHOD
+fit_naive <- naive(sp500_training, h = 36)
+
+# Will download the rds file only if its not present in the models directory 
+if (is.null(here("models", 'naive.rds'))){
+  saveRDS(fit_naive, file = here("models", 'naive.rds'))
+}
+
+f <- autoplot(fit_naive, 
+              holdout = sp500_test,
+              ts_object_name = "Naive Forecast") 
+f
+ggplotly(f)
+
+# SEASONAL NAIVE METHOD
+fit_snaive <- snaive(sp500_training, h = 36)
+
+# Will download the rds file only if its not present in the models directory 
+if (is.null(here("models", 'snaive.rds'))){
+  saveRDS(fit_snaive, file = here("models", 'snaive.rds'))
+}
+
+g <- autoplot(fit_snaive, 
+              holdout = sp500_test,
+              ts_object_name = "Seasonal Naive")
+g
+ggplotly(g)  
+
+# NEURAL NETWORKS
+fit_sp500_net <- nnetar(sp500_training, lambda = lambda) # Using BC lambda
+fit_net <- forecast(fit_sp500_net, h = 36, PI = TRUE)
+
+# Will download the rds file only if its not present in the models directory 
+if (is.null(here("models", 'box_cox.rds'))){
+  saveRDS(fit_net, file = here("models", 'neural_net.rds'))
+}
+
+n <- autoplot(fit_net, 
+              holdout = sp500_test,
+              ts_object_name = 'Neural Networks Forecast')
+n
+ggplotly(s)
 
 # COMPARE FORECAST ACCURACIES ACROSS DIFFERENT METHODS USED
 round(accuracy(fit_arima, sp500_test), 3)
 round(accuracy(fit_BC, sp500_test), 3)
-round(accuracy(fit_net, sp500_test), 3)
+round(accuracy(fit_ets, sp500_test), 3)
 round(accuracy(fit_meanf, sp500_test), 3)
 round(accuracy(fit_naive, sp500_test), 3)
 round(accuracy(fit_snaive, sp500_test), 3)
-round(accuracy(fit_ets, sp500_test), 3)
+round(accuracy(fit_net, sp500_test), 3)
 
 # CONCLUSIONS
 # The model with the best diagnostics is our ARIMA Model 

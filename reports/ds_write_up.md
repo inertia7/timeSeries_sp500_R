@@ -294,7 +294,7 @@ Next let's create the test set:
 
 # Shiny Dashboard
 
-For this demonstration to save space, a shiny dashboard will be created to give flexible filtering options between different forecasting methods.
+For this demonstration we primarily focuses on *ARIMA* modeling, a shiny dashboard will be created to give flexible filtering options between different forecasting methods used in the full analysis.
 
 We used 7 different methods which we won't go into detail (for more read the forecasting section on [Inertia7](https://www.inertia7.com/projects/8)).
 
@@ -322,7 +322,7 @@ Here are the results for the test set (the function will return both training an
 | Seasonal Naive Forecast Method | 121.864 | 154.322 | 129.230 | 5.883 |  6.262 | 0.682 | 0.770 | 3.32 |
 | Neural Network | 9.657 | 43.853 | 38.108 | 0.431 | 1.867 | 0.201 | 0.420 | 1.03 |
 
-Surprisingly other models performed better on the test set than the ARIMA model. This could be a result of overfitting since our test set was really small, but upon iteratively working on this project, we have been able to expand the test set to include data up until 2016.
+Surprisingly other models performed better on the test set than the ARIMA model. This could be a result of overfitting since our test set was really small, but upon iteratively working on this project, we have been able to expand the test set to include data up until 2017 on the repo and inertia7 project.
 
 For the sake of the dashboard we decided to leave it in the original state, although we do encourage to explore the models with a larger test set.  
 
