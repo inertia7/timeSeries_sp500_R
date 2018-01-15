@@ -118,10 +118,9 @@ We won't go into detail here but we outlined several other forecasting methods t
 - **Exponential Smoothing Forecast**
 
 These forecasting methods more concisely detailed on [Here](https://www.otexts.org/fpp/2/3) by **Rob J Hyndman** and **George Athanasopoulos**
+
 ## Conclusions
 Finally we draw conclusions using scale-dependent errors as to which model is best for forecasting our time series object!
-
-Ultimately we decided that our **ARIMA(0,1,1)** was the best model at forecasting based on the scale-dependent errors outlined in the projcet.
 
 | Model | ME | RMSE | MAE | MPE | MAPE | MASE | ACF1 | Theil's U |
 |-------|-------|-------|-------|-------|-------|-------|-------|
@@ -132,6 +131,9 @@ Ultimately we decided that our **ARIMA(0,1,1)** was the best model at forecastin
 | Naive Forecast Method | 2.814 | 44.356 | 37.086 | 0.090 | 1.823 | 0.196 | 0.546 | 1.051 |
 | Seasonal Naive Forecast Method | 121.864 | 154.322 | 129.230 | 5.883 |  6.262 | 0.682 | 0.770 | 3.32 |
 | Exponential Smoothing | -45.203 | 67.125 | 46.160 | -2.256 | 2.302 | 0.244 | 0.650 | 1.603 |
+
+Ultimately we decided that our **ARIMA(0,1,1)** was the best model at forecasting based on the scale-dependent errors outlined in the project.
+
 
 ## <a name="Sources-Cited"></a>Sources Cited
 
