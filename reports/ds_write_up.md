@@ -302,6 +302,8 @@ Here we use the accuracy method including the test set to give us metrics for al
     # Using round function to make it more readable
     round(accuracy(fit, sp500_test), 3)
 
+Here are the results for the test set (the function will return both training and test set metrics, but we're only concerned with the test set metrics).
+
 | Model | ME | RMSE | MAE | MPE | MAPE | MASE | ACF1 | Theil's U |
 |-------|-------|-------|-------|-------|-------|-------|-------|
 | ARIMA | -5.670 | 55.213 | 45.611 | -0.331 | 2.249 | 0.241 |  0.695 | 1.323 |
