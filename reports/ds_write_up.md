@@ -63,7 +63,7 @@ In **R** we are able to create time-series objects for our data vectors using th
 
 Here we use our own function called `plot_time_series`, which does as its name suggests:
 
-    plot_time_series(sp_500, 'S&P 500 Training Set')
+    plot_time_series(sp_500, 'S&P 500')
 
 
 <iframe width="100%" height=415  frameborder="0" scrolling="no" src="https://plot.ly/~raviolli77/55.embed?autosize=True&width=90%&height=100%"></iframe>
