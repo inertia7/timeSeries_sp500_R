@@ -152,7 +152,7 @@ A way to make a time-series *stationary* is to find the difference across its co
 
 For this we use the `diff()` method.
 
-	tsDiff <- diff(sp_500)
+	tsDiff <- diff(sp500_training)
 
 
 Next we plot our transformed time-series:
