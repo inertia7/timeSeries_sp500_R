@@ -54,7 +54,9 @@ plot_time_series <- function(ts_object, ts_object_name){
               panel.background = element_rect(fill = "gray98"),
               axis.line.x = element_line(colour="gray"),
               axis.line.y = element_line(colour="gray")) +
-        labs(x = "Year", y = "Closing Values")
+        labs(x = "Year", y = "Closing Values")  + 
+        scale_x_date(date_breaks = "1 year",
+                     date_labels = '%Y')
       return(tsPlot)
     }
   }
