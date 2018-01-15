@@ -330,6 +330,11 @@ Version: 1.3-1
 Hash: 669bbbe1a44a3fe1e9d076536439b709
 Requires: backports
 
+Package: rstudioapi
+Source: CRAN
+Version: 0.7
+Hash: e2ebaff8160aff3e6b32e6e78a693c2d
+
 Package: scales
 Source: CRAN
 Version: 0.4.1

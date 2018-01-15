@@ -8,10 +8,13 @@ For this project we leverage the horse-power of RStudio and deliver, where appro
 
 # Load Packages
 
-First, in order for all the packages to be loaded correctly into your *Rstudio* console, select in *File* - *Open Project in new Sesssion...*. With the use of the `packrat` package, the `.Rprofile` script will automatically run files in the `packrat` directory and load the appropriate packages into the **R** environment.
+First, in order for all the packages to be loaded correctly into your *Rstudio* console, select in *File* - *Open Project in new Sesssion...*, then clicking on the pre-existing *Rproject* from the repo. With the use of the `packrat` package, the `.Rprofile` script will automatically run files in the `packrat` directory and load the appropriate packages into the **R** environment.
 
-Once this is completed, you should be opened up to a new Rstudio sesion. Here we will be referencing the `helper_functions` script which contains all the necessary packages. We use `
-source(here("src",'helper_functions.R'))` but for this demonstration we will load them in manually.
+Once this is completed, you should be opened up to a new Rstudio sesion. Here we will be referencing the `helper_functions` script which contains all the necessary packages. We use
+
+	source(here("src",'helper_functions.R'))
+
+For this demonstration we will load them in manually.
 
 ```
 # LOAD YOUR PACKAGES
@@ -45,7 +48,7 @@ Now we can call our **S&P 500 Stock Index** data by typing `data_master$sp_500` 
 
 As the project grew, our knowledge of object oriented programming grew as well. We created a helper script which contains functions that automate many of our plots.
 
-We will describe each as they are used. Important to note we utilized the `docstrings` package which allows you to view them on *Rstudio* as such:
+In order to provide well written documentation for these functions, we utilized the `docstrings` package which allows you to view them on *Rstudio* as such:
 
 
     ?function_name
@@ -107,7 +110,7 @@ We will utilize a few statistical tests to test for stationarity. We must be wea
 	data:  sp500_training
 	X-squared = 2024.8, df = 20, p-value < 2.2e-16
 
-Now we will utilize the **Augmented Dickey-Fuller Test** for stationarity. The null hypothesis states that large p-values indicate non-stationarity and smaller p values indicate stationarity (We will be using 0.05 as our alpha value). 
+Now we will utilize the **Augmented Dickey-Fuller Test** for stationarity. The null hypothesis states that large p-values indicate non-stationarity and smaller p values indicate stationarity (We will be using 0.05 as our alpha value).
 
 	adf.test(sp_500)
 
@@ -131,12 +134,14 @@ Beyond understanding the *trend* of our time-series, we want to further understa
 
 <iframe width="100%" height=600  frameborder="0" scrolling="no" src="https://plot.ly/~raviolli77/35.embed?autosize=True&width=90%&height=100%"></iframe>
 
+The trend line already shows us what we know and we can see that there might be some seasonality in our time series object.
+
 # Model Estimation
 ## Diagnosing the ACF and PACF Plots of our Time-Series Object
 
 *ACF* stands for "autocorrelation function" and *PACF* stands for "partial autocorrelation function". The *ACF* and *PACF* diagnosis is employed over a time-series to determine the order for which we are going to create our model using *ARIMA* modeling. Loosely speaking, a time-series is *stationary* when its mean, variance, and *autocorrelation* remain constant over time.
 
-These functions help us understand the correlation component of different data points at different time *lags*. *Lag* refers to the time difference between one observation and a previous observation in a dataset. When there is large autocorrelation within our lagged values, we see geometric decay in our plots, which is a huge indicator that we will have to take the difference of our time series object. Let's examine our plots!
+These functions help us understand the correlation component of different data points at different time *lags*. *Lag* refers to the time difference between one observation and a previous observation in a dataset. Let's examine our plots!
 
 
     # DIAGNOSING ACF AND PACF PLOTS
@@ -144,9 +149,11 @@ These functions help us understand the correlation component of different data p
 
 <img src="https://raw.githubusercontent.com/inertia7/timeSeries_sp500_R/master/reports/figures/acf_pacf.png">
 
+When there is large autocorrelation within our lagged values, we see geometric decay in our plots, which is a huge indicator that we will have to take the difference of our time series object.
+
 ## Transforming our data to adjust for non-stationary
 
-From visual inspection of the time series object and the other graphs used for exploratory purposes we decided it is appropriate to difference our time series object to account for the *non-stationarity* and see how that fares!
+From visual inspection of the time series object and the previously mentioned statistical tests used for exploratory analysis, we decided it is appropriate to difference our time series object to account for the *non-stationarity* and see how that fares!
 
 A way to make a time-series *stationary* is to find the difference across its consecutive values. This helps stabilize the mean, thereby making the time-series object stationary.
 
@@ -161,7 +168,7 @@ Next we plot our transformed time-series:
 
 <iframe width="100%" height=415  frameborder="0" scrolling="no" src="https://plot.ly/~raviolli77/37.embed?autosize=True&width=90%&height=100%"></iframe>
 
-This plot suggests that our working data is stationary. We want to confirm this running an *ACF* and *PACF* diagnostics over this data to find our if we can proceed to estimating a model.
+This plot suggests that our working data is stationary. We want to confirm this running the same tests, and looking at the  *ACF* and *PACF* diagnostics over the differenced data to find our if we can proceed to estimating a model.
 
 ## Testing for Stationarity
 We apply the same tests to our differenced time series object.
