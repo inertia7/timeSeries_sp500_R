@@ -1,16 +1,17 @@
 # Univariate Time Series Analysis on S&P 500 Stock Index
 
-This project focuses on finding the best statistical-learning time series model to predict future values for the <strong>S&amp;P 500 Stock Index</strong>.
+This project focuses on finding the best statistical-learning time series model to predict future values for the **S&amp;P 500 Stock Index**.
 
-Time-series analysis is a basic concept within the field of statistical-learning, which is appropriate for the analysis of the <strong>S&amp;P 500 Stock Index.</strong> Although important to note that using this time series analysis to invest in stocks is highly discouraged.   
+Time-series analysis is a basic concept within the field of statistical-learning, which is appropriate for the analysis of the **S&amp;P 500 Stock Index**. Although important to note that using this time series analysis to invest in stocks is highly discouraged.   
 
-For this project we leverage the horse-power of RStudio and deliver, where appropriate, gorgeous interactive data visualizations using <strong>ggplot2</strong> and <strong>plotly</strong>
+For this project we leverage the horse-power of RStudio and deliver, where appropriate, gorgeous interactive data visualizations using **ggplot2** and **plotly**
 
 # Load Packages
 
-First, we want to load the appropriate packages into our **R** environment.
+First, in order for all the packages to be loaded correctly into your *Rstudio* console, select in *File* - *Open Project in new Sesssion...*. With the use of the `packrat` package, the `.Rprofile` script will automatically run files in the `packrat` directory and load the appropriate packages into the **R** environment.
 
-For this we use the `library()` method and include the package names as arguments.
+Once this is completed, you should be opened up to a new Rstudio sesion. Here we will be referencing the `helper_functions` script which contains all the necessary packages. We use `
+source(here("src",'helper_functions.R'))` but for this demonstration we will load them in manually.
 
 ```
 # LOAD YOUR PACKAGES
@@ -25,14 +26,7 @@ library(here)
 here() # Should output current work directory
 ```
 
-An error message in this format may appear:
-
-  	library(_____)
-  	Error in library(_____) : there is no package called (_____)
-
-If this error appears, it means that you haven't installed the packages yet. Make sure to install the packages using the `install.packages()` method.
-
-Using the `here` package, (as recommended by [Jenny Bryan](https://community.rstudio.com/u/jennybryan) in [this thread](https://community.rstudio.com/t/project-oriented-workflow-setwd-rm-list-ls-and-computer-fires/3549))
+Using the `here` package, (as recommended by [Jenny Bryan](https://community.rstudio.com/u/jennybryan) in [this thread](https://community.rstudio.com/t/project-oriented-workflow-setwd-rm-list-ls-and-computer-fires/3549)), we are going to set the working directory and will be able to reference different subdirectories to make the workflow easier.
 
 # Get Data
 Now we collect our data. We want to use reliable sources of complete and accurate data. We collected *21 years* (1995-2015) of **S&P 500 Stock Index** data at a monthly frequency (a total of 252 observations) from [Yahoo Finance](https://finance.yahoo.com/quote/%5EGSPC/history?period1=788947200&period2=1489820400&interval=1mo&filter=history&frequency=1mo). You can do the same too. We chose to use the Adjusted Closing Value for our analysis.
@@ -40,11 +34,11 @@ Now we collect our data. We want to use reliable sources of complete and accurat
 ## Loading Data
 Then we must include our data set within our working R environment. For this we use:
 
-	dataMaster <- read.csv(here("data", "data_master_1.csv"))
+	data_master <- read.csv(here("data", "data_master_1.csv"))
 
-	attach(dataMaster)
+	attach(data_master)
 
-Now we can call our **S&P 500 Stock Index** data by typing `dataMaster$sp_500` into our terminal.
+Now we can call our **S&P 500 Stock Index** data by typing `data_master$sp_500` into our terminal.
 
 # Helper Functions
 
@@ -52,7 +46,8 @@ As the project grew, our knowledge of object oriented programming grew as well. 
 
 We will describe each as they are used. Important to note we utilized the `docstrings` package which allows you to view them on *Rstudio* as such:
 
-  ?function_name
+
+    ?function_name
 
 # Exploratory Analysis
 
@@ -60,9 +55,11 @@ Now we want to get a feel for our data to get an intuition about the models that
 
 ## Creating time-series data object
 
-Our **S&P 500 Stock Index** data is in the form of time-series; this means that our data exists over a continuous time interval with equal spacing between every two consecutive measurements. In **R** we are able to create time-series objects for our data vectors using the `ts()` method. For this, we select the vector we would like to use as the first argument, and tune the `start` and `freq` (frequency) parameters. Then we output the time-series data to the terminal by calling our newly-created time-series object.
+Our **S&P 500 Stock Index** data is in the form of time-series; this means that our data exists over a continuous time interval with equal spacing between every two consecutive measurements.
 
-  	sp_500 <- ts(dataMaster$sp_500, start=c(1995, 1), freq=12)
+In **R** we are able to create time-series objects for our data vectors using the `ts()` method. For this, we select the vector we would like to use as the first argument, and tune the `start` and `freq` (frequency) parameters. Then we output the time-series data to the terminal by calling our newly-created time-series object.
+
+  	sp_500 <- ts(data_master$sp_500, start=c(1995, 1), freq=12)
 
 Here we use our own function called `plot_time_series`, which does as its name suggests:
 
@@ -73,8 +70,7 @@ Here we use our own function called `plot_time_series`, which does as its name s
 
 Before we begin any analysis, we will be splitting the data to remove 2015 to use as our test set.
 
-    sp500_TR <- ts(sp_500, start=c(1995, 1), end=c(2014, 12), freq=12)
-	  sp500_TR
+    sp500_training <- ts(sp_500, start=c(1995, 1), end=c(2014, 12), freq=12)
 
 
 ## Plotting our Time Series
@@ -90,7 +86,7 @@ Plotting the data is arguably the most critical step in the exploratory analysis
 we start our analysis by plotting our time series object to give us a visual basis to start our modeling.
 
 
-	 plot_time_series(sp500_TR, 'S&P 500')
+	 plot_time_series(sp500_training, 'S&P 500')
 
 <iframe width="100%" height=415  frameborder="0" scrolling="no" src="https://plot.ly/~raviolli77/31.embed"></iframe>
 
@@ -103,11 +99,11 @@ We will utilize a few statistical tests to test for stationarity.
 
 ### Terminal Output
 
-	> Box.test(sp500_TR, lag = 20, type = 'Ljung-Box')
+	> Box.test(sp500_training, lag = 20, type = 'Ljung-Box')
 
 		Box-Ljung test
 
-	data:  sp500_TR
+	data:  sp500_training
 	X-squared = 2024.8, df = 20, p-value < 2.2e-16
 
 Now we will utilize the **Augmented Dickey-Fuller Test** for stationarity.
@@ -116,11 +112,11 @@ Now we will utilize the **Augmented Dickey-Fuller Test** for stationarity.
 
 ### Terminal Output
 
-	> adf.test(sp500_TR)
+	> adf.test(sp500_training)
 
 		Augmented Dickey-Fuller Test
 
-	data:  sp500_TR
+	data:  sp500_training
 	Dickey-Fuller = -1.7877, Lag order = 6, p-value = 0.6652
 	alternative hypothesis: stationary
 
@@ -130,7 +126,7 @@ We can see our p-value for the ADF test is relatively high, so we'll do some fur
 
 Beyond understanding the *trend* of our time-series, we want to further understand the anatomy of our data. For this reason we break-down our time-series into its *seasonal component*, *trend*, and *residuals*.
 
-    plot_decomp(sp500_TR, 'S&P 500')
+    plot_decomp(sp500_training, 'S&P 500')
 
 <iframe width="100%" height=600  frameborder="0" scrolling="no" src="https://plot.ly/~raviolli77/35.embed?autosize=True&width=90%&height=100%"></iframe>
 
@@ -139,12 +135,11 @@ Beyond understanding the *trend* of our time-series, we want to further understa
 
 *ACF* stands for "autocorrelation function" and *PACF* stands for "partial autocorrelation function". The *ACF* and *PACF* diagnosis is employed over a time-series to determine the order for which we are going to create our model using *ARIMA* modeling. Loosely speaking, a time-series is *stationary* when its mean, variance, and *autocorrelation* remain constant over time.
 
-These functions help us understand the correlation component of different data points at different time *lags*. *Lag* refers to the time difference between one observation and a previous observation in a dataset. When there is large autocorrelation within our lagged values, we see geomtric decay in our plots, which is a huge indicator that we will have to take the difference of our time series object. Let's examine our plots!
+These functions help us understand the correlation component of different data points at different time *lags*. *Lag* refers to the time difference between one observation and a previous observation in a dataset. When there is large autocorrelation within our lagged values, we see geometric decay in our plots, which is a huge indicator that we will have to take the difference of our time series object. Let's examine our plots!
 
-To carry out our *ACF* and *PACF* diagnosis in R we use the the `grid.arrange()` method, which we referenced from the `gridExtra` package in **R**. We include our time-series object as the argument.
 
     # DIAGNOSING ACF AND PACF PLOTS
-    plot_acf_pacf(sp500_TR, 'S&P 500')
+    plot_acf_pacf(sp500_training, 'S&P 500')
 
 <img src="https://raw.githubusercontent.com/inertia7/timeSeries_sp500_R/master/reports/figures/acf_pacf.png">
 
@@ -156,12 +151,12 @@ A way to make a time-series *stationary* is to find the difference across its co
 
 For this we use the `diff()` method.
 
-	diff <- diff(sp_500)
+	tsDiff <- diff(sp_500)
 
 
 Next we plot our transformed time-series:
 
-    plot_time_series(diff, 'First Difference')
+    plot_time_series(tsDiff, 'First Difference')
 
 <iframe width="100%" height=415  frameborder="0" scrolling="no" src="https://plot.ly/~raviolli77/37.embed?autosize=True&width=90%&height=100%"></iframe>
 
@@ -170,25 +165,25 @@ This plot suggests that our working data is stationary. We want to confirm this 
 ## Testing for Stationarity
 We apply the same tests to our differenced time series object.
 
-	> Box.test(diff, lag = 20, type = 'Ljung-Box')
+	> Box.test(tsDiff, lag = 20, type = 'Ljung-Box')
 
 	Box-Ljung test
 
-	data:  diff
+	data:  tsDiff
 	X-squared = 58.2, df = 20, p-value = 1.347e-05
 
 Now let's use the ADF Test
 
-	> adf.test(diff)
+	> adf.test(tsDiff)
 
 	Augmented Dickey-Fuller Test
 
-	data:  diff
+	data:  tsDiff
 	Dickey-Fuller = -4.9552, Lag order = 6, p-value = 0.01
 	alternative hypothesis: stationary
 
 	Warning message:
-	In adf.test(diff) : p-value smaller than printed p-value
+	In adf.test(tsDiff) : p-value smaller than printed p-value
 
 Upon reading this [stackoverflow](https://stats.stackexchange.com/questions/142003/adf-test-results-confusion) post over the cryptic warning message, we can see that the result yields a small p-value which makes us reject the null suggestion stationarity.
 
@@ -196,7 +191,7 @@ Upon reading this [stackoverflow](https://stats.stackexchange.com/questions/1420
 
 The plot below helps us confirm that we have stationarity and also helps us deduce which model we will use. It is important to keep in mind that we have a difference parameter equal to one (i.e. *d = 1*) because of the previous transformation we carried out.
 
-    plot_acf_pacf(diff, 'First Difference Time Series Object')
+    plot_acf_pacf(tsDiff, 'First Difference Time Series Object')
 
 <img src="https://raw.githubusercontent.com/inertia7/timeSeries_sp500_R/master/reports/figures/acf_pacf_diff.png">
 
@@ -210,10 +205,10 @@ Our findings in the exploratory analysis phase suggest that model *ARIMA(0, 1, 1
 
 The `auto.arima()` method, found within the `forecast` package, yields the best model for a time-series based on **Akaike-Information-Criterion** (*AIC*). The *AIC* is a measurement of quality used across various models to find the best fit. After running our original and differenced data sets through the `auto.arima()` method we confirmed that the *ARIMA(0, 1, 1)* is our best fit model.
 
-We use the `Arima()` method to fit our model and include our training data set `sp500_TR` as the first argument.
+We use the `Arima()` method to fit our model and include our training data set `sp500_training` as the first argument.
 
 
-	fit <- Arima(sp500_TR, order = c(0,1,1),
+	fit <- Arima(sp500_training, order = c(0,1,1),
     	include.drift = TRUE)
 	summary(fit)
 
@@ -222,7 +217,7 @@ Here's the summary of our model (using the `summary()` method):
 ### Terminal Output
 
 	> summary(fit)
-	Series: sp500_TR
+	Series: sp500_training
 	ARIMA(0,1,1) with drift         
 
 
@@ -248,7 +243,7 @@ Our next step is to run a residual diagnostics to ensure our residuals are white
 
 ```
 # RESIDUAL DIAGNOSTICS
-ggtsdiag(fit) +
+ggtsdiag_custom(fit) +
   theme(panel.background = element_rect(fill = "gray98"),
         panel.grid.minor = element_blank(),
         axis.line.y = element_line(colour="gray"),
@@ -275,12 +270,73 @@ This model appears to confirm all of our assumptions, which means we can continu
 # Forecasting
 We proceed to forecasting now that we believe we found the appropriate model!
 
-So there are still limitations with respect to the newest updates of the `forecast` package with respect to `ggplot2` objects. We utilized the `autoplot()` function quite heavily on this iteration of our project, since we couldn't find a way of adding the actual values to the plot we used a workaround by borrowing [Drew Schmidt's](http://librestats.com/2012/06/11/autoplot-graphical-methods-with-ggplot2/) work around to including the actual 2015 values. The code can be found in the github repository, so you should run the `autoplot.forecast()` inorder to get the plots we have here. For now we create a time series object that will include the actual 2015 values, where in our function it will be called up by the parameter `holdout`.
+We utilized the `autoplot()` function quite heavily on this iteration of our project, since we couldn't find a way of adding the actual values to the plot we used a workaround by borrowing [Drew Schmidt's](http://librestats.com/2012/06/11/autoplot-graphical-methods-with-ggplot2/) work around to including the actual 2015 values.
+
+The code can be found in the github repository, so you should run the `autoplot.forecast()` in order to get the plots we have here. For now we create a time series object that will include the actual 2015 values, where in our function it will be called up by the parameter `holdout`.
 
 Next we use the `forecast` function (that we updated thanks to *Drew Schmidt*), `ggplot2` and `plotly` to visualize the predictions for the year 2015! Here within the plots the forecasted values are **BLUE**, the actual 2015 values are in **RED**, the 80% Confidence Intervals are encompassed in the **YELLOW** bands and 95% *Confidence Intervals* are encompassed in the **ORANGE** bands respectively.
 
 	for_sp500_all <- forecast(fit, h = 12)
 
+
+Next let's create the test set:
+
+    sp500_test <- window(sp_500, 2015, c(2015, 12))
+
+
 # Shiny Dashboard
 
 For this demonstration to save space, a shiny dashboard will be created to give flexible filtering options between different forecasting methods.
+
+We used 7 different methods which we won't go into detail (for more read the forecasting section on [Inertia7](https://www.inertia7.com/projects/8)).
+
+
+<iframe width="100%" height="950px" frameborder="0" scrolling="no" src="https://raviolli77.shinyapps.io/forecast_dashboard/"></iframe>
+
+# Conclusions
+
+The forecasting method we use to find the best model is recieving the lowest *MAE* and *MAPE* as described by **Rob J. Hyndman** [here](https://www.otexts.org/fpp/2/5)
+
+Here we use the accuracy method including the test set to give us metrics for all models. The functions is called as follows:
+
+    # Using round function to make it more readable
+    round(accuracy(fit, sp500_test), 3)
+
+| Model | ME | RMSE | MAE | MPE | MAPE | MASE | ACF1 | Theil's U |
+|-------|-------|-------|-------|-------|-------|-------|-------|
+| ARIMA | -5.670 | 55.213 | 45.611 | -0.331 | 2.249 | 0.241 |  0.695 | 1.323 |
+| Box-Cox Transformation | 213.268 | 235.805 | 213.268 | 10.388 | 10.388 | 1.125 | 0.601 | 5.593 |
+| Exponential Smoothing | -45.203 | 67.125 | 46.160 | -2.256 | 2.302 | 0.244 | 0.650 | 1.603 |
+| Mean Forecast Method | 866.998 | 868.128 | 866.998 | 42.255 | 42.255 | 4.574 | 0.546 | 19.708 |
+| Naive Forecast Method | 2.814 | 44.356 | 37.086 | 0.090 | 1.823 | 0.196 | 0.546 | 1.051 |
+| Seasonal Naive Forecast Method | 121.864 | 154.322 | 129.230 | 5.883 |  6.262 | 0.682 | 0.770 | 3.32 |
+| Neural Network | 9.657 | 43.853 | 38.108 | 0.431 | 1.867 | 0.201 | 0.420 | 1.03 |
+
+Surprisingly other models performed better on the test set than the ARIMA model. This could be a result of overfitting since our test set was really small, but upon iteratively working on this project, we have been able to expand the test set to include data up until 2016.
+
+For the sake of the dashboard we decided to leave it in the original state, although we do encourage to explore the models with a larger test set.  
+
+# Sources Cited
+Here we include all the resources that helped us and that we would highly recommend reading! They are resources that we believed covered the material very well without getting to technical. Although I would recommend **Time Series Analysis and Its Application with R Example** if you would like to learn more in depth. I would also like to acknowledge [Rob J. Hyndman](http://robjhyndman.com) for his major contributions to Time Series Analysis and the r community with the creation of the `forecast` package among other contributions. As well as [Hadley Wickham](http://hadley.nz/) for his contribution to both **Rstudio** and `ggplot2`, which without these none of this would have been possible. Thank you.
+
++ Hyndman, Rob J., and George Athanasopoulos. [""Forecasting: Principles and Practice""](https://www.otexts.org/fpp) Otexts. N.p., May 2012. Web.
++ [NIST/SEMATECH e-Handbook of Statistical Methods](http://www.itl.nist.gov/div898/handbook/pmc/section4/pmc4.htm), ""Introduction to Time Series Analysis"". June, 2016.
++ Schmidt, Drew. [Autoplot: Graphical Methods with ggplot2](http://librestats.com/2012/06/11/autoplot-graphical-methods-with-ggplot2/) Wrathematics, my stack runneth over. June, 2012. Web.
++ [""Stack Exchange""](http://stats.stackexchange.com) To all the contributors when we looked for answers on Stack Exchange we can't thank you enough
+
+## Citations for Packages Used in Project
+
+Citations created using the function (in **R**):
+
+	citation(""packageName"")
+
++ A. Trapletti and K. Hornik (2016). **tseries: Time Series Analysis and Computational Finance**. R package version 0.10-35.
++ B. Auguie (2016). **gridExtra: Miscellaneous Functions for ""Grid"" Graphics**. R package version 2.2.1. https://CRAN.R-project.org/package=gridExtra
++ C. Sievert, C. Parmer, T. Hocking, S. Chamberlain,
+K. Ram, M. Corvellec and P. Despouy (NA). **plotly: Create Interactive Web Graphics via 'plotly.js'**.
+https://plot.ly/r, https://cpsievert.github.io/plotly_book/, https://github.com/ropensci/plotly.
++ D. Stoffer (2016). **astsa: Applied Statistical Time Series Analysis**. R package version 1.6. https://CRAN.R-project.org/package=astsa
++ H. Wickham. **ggplot2: Elegant Graphics for Data Analysis**. Springer-Verlag New York, 2009.
++ H. Wickham and W. Chang (2016). **devtools: Tools to Make Developing R Packages Easier**. R package version 1.12.0. https://CRAN.R-project.org/package=devtools
++ M. Horikoshi and Y. Tang (2016). **ggfortify: Data Visualization Tools for Statistical Analysis Results**. R package version 0.2.0. https://CRAN.R-project.org/package=ggfortify
++ R. J. Hyndman(2016). **forecast: Forecasting functions for time series and linear models** . R package version 7.2, http://github.com/robjhyndman/forecast>."

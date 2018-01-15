@@ -70,7 +70,7 @@ adf.test(sp500_diff)
 # Let's begin analysis with visually inspecting ACF and PACF plots
 
 # DIAGNOSING ACF AND PACF PLOTS FOR DIFFERENCED TIME SERIES OBJECT
-plot_acf_pacf(diff, 'First Difference Time Series Object')
+plot_acf_pacf(sp500_diff, 'First Difference Time Series Object')
 
 # SEASONAL PLOT FOR DIFFERENCED TIME SERIES OBJECT
 spDiff <- plot_seasonal(sp500_diff, 'First Difference Time Series Object')
@@ -110,14 +110,12 @@ residFit
 
 # TEST SET THAT WE WILL COMPARE OUR FORECAST AGAINST 
 sp500_test <- window(sp_500, 2015, c(2015, 12))
-sp500_test
 
 # FORECASTING
 # METHOD CHOSEN THROUGH BOX JENKINS METHODOLOGY WAS ARIMA(0,1,1) WITH DRIFT
 ## ARIMA MODEL CHOSEN 
 fit_arima <- forecast(fit, h = 12)
 
-ggtsdiag_custom(fit_arima, 'ARIMA(0, 1, 1)')
 # Will download the rds file only if its not present in the models directory 
 if (is.null(here("models", 'arima.rds'))){
   saveRDS(fit_arima, file = here("models", 'arima.rds'))
@@ -221,14 +219,15 @@ h <- autoplot(fit_ets,
 h
 ggplotly(h)  
 
+
 # COMPARE FORECAST ACCURACIES ACROSS DIFFERENT METHODS USED
-accuracy(fit_arima)
-accuracy(fit_BC)
-accuracy(fit_net)
-accuracy(fit_meanf)
-accuracy(fit_naive)
-accuracy(fit_snaive)
-accuracy(fit_ets)
+round(accuracy(fit_arima, sp500_test), 3)
+round(accuracy(fit_BC, sp500_test), 3)
+round(accuracy(fit_net, sp500_test), 3)
+round(accuracy(fit_meanf, sp500_test), 3)
+round(accuracy(fit_naive, sp500_test), 3)
+round(accuracy(fit_snaive, sp500_test), 3)
+round(accuracy(fit_ets, sp500_test), 3)
 
 # CONCLUSIONS
 # The model with the best diagnostics is our ARIMA Model 

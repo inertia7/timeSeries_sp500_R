@@ -25,14 +25,14 @@ This project focuses on using univariate time series forecasting methods for the
 
 ## <a name="Packages-Required"></a>Packages Required
 
-**IMPORTANT TO NOTE** (Updated 1/11/2018): Script was changed to include package `packrat` which will act as a version control. So once you clone this repo and open in *Rstudio*, select in *File* - *Open Projeect in new Sesssion...*, upon opening the existing project, `timeSeries_sp500_R.Rproj`, `packrat` will automatically download all dependecies. 
+**IMPORTANT TO NOTE** (Updated 1/11/2018): Script was changed to include package `packrat` which will act as a version control. So once you clone this repo and open in *Rstudio*, select in *File* - *Open Project in new Sesssion...*, upon opening the existing project, `timeSeries_sp500_R.Rproj`, `packrat` will automatically download all dependecies.
 
 Once `packrat` is done you should be prompted with:
 
 	Restarting R session...
 
 
-Once this happens a new *Rstudio* session will appear and all scripts should work. 
+Once this happens a new *Rstudio* session will appear and all scripts should work.
 
 ## <a name="shiny-dashboard"></a>Shiny Dashboard
 
@@ -123,14 +123,15 @@ Finally we draw conclusions using scale-dependent errors as to which model is be
 
 Ultimately we decided that our **ARIMA(0,1,1)** was the best model at forecasting based on the scale-dependent errors outlined in the projcet.
 
-| Model | ME | RMSE | MAE | MPE | MAPE | MASE | ACF1 |
-|-----------|--------------|----------|----------|-------------|----------|-----------|--------------|
-| ARIMA Foreacst |  -0.00911296 | 33.85289 | 24.84955 | -0.00840343 | 2.141218 | 0.1310854 |  -0.01137429 |
-| Box-Cox Forecast    |  6.808873    | 39.28348 | 30.16598 | 0.282006    | 2.567669 | 0.1591304 |   0.4091459  |
-| Mean Forecast |-9.668655e-15 | 319.3598 | 244.9373 | -9.110565   | 24.74398 | 1.292084  |   0.9666459  |
-| Naive Forecast |  6.624059    | 39.30052 | 30.14866 | 0.5581768   |  2.66548 | 0.1590391 |   0.4170651  |
-| Seasonal Naive Forecast |  73.06769 | 219.6302 | 189.5676 | 4.738094 | 16.6731 |    1  | 0.9647997 |
-| Exponential Smoothing Forecast   |  2.648054    | 36.65711 | 27.74495 | 0.2519063   | 2.409392 | 0.1463591 |   0.1592457  |
+| Model | ME | RMSE | MAE | MPE | MAPE | MASE | ACF1 | Theil's U |
+|-------|-------|-------|-------|-------|-------|-------|-------|
+| ARIMA | -5.670 | 55.213 | 45.611 | -0.331 | 2.249 | 0.241 |  0.695 | 1.323 |
+| Box-Cox Transformation | 213.268 | 235.805 | 213.268 | 10.388 | 10.388 | 1.125 | 0.601 | 5.593 |
+| Neural Network | 9.657 | 43.853 | 38.108 | 0.431 | 1.867 | 0.201 | 0.420 | 1.03 |
+| Mean Forecast Method | 866.998 | 868.128 | 866.998 | 42.255 | 42.255 | 4.574 | 0.546 | 19.708 |
+| Naive Forecast Method | 2.814 | 44.356 | 37.086 | 0.090 | 1.823 | 0.196 | 0.546 | 1.051 |
+| Seasonal Naive Forecast Method | 121.864 | 154.322 | 129.230 | 5.883 |  6.262 | 0.682 | 0.770 | 3.32 |
+| Exponential Smoothing | -45.203 | 67.125 | 46.160 | -2.256 | 2.302 | 0.244 | 0.650 | 1.603 |
 
 ## <a name="Sources-Cited"></a>Sources Cited
 
