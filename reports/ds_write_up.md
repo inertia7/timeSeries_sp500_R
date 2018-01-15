@@ -261,7 +261,7 @@ residFit <- ggplot(data=fit, aes(residuals(fit))) +
   ggtitle("Plot of SP 500 ARIMA Model Residuals")
 ```
 
-<img src="http://imgur.com/Uv1EEO1.png">
+<img src="https://raw.githubusercontent.com/inertia7/timeSeries_sp500_R/master/reports/figures/resid_diag.png">
 
 Based on our diagnostic plot, the residuals to seem to display a normal distribution.
 
