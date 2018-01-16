@@ -136,6 +136,7 @@ fit_sp500_BC <- ar(BoxCox(sp500_training,lambda))
 
 fit_BC <- forecast(fit_sp500_BC,h=36,lambda=lambda)
 ggtsdiag_custom(fit_sp500_BC, 'Box-Cox Transformation (AR(2))')
+
 # Will download the rds file only if its not present in the models directory 
 if (is.null(here("models", 'box_cox.rds'))){
   saveRDS(fit_BC, file = here("models", 'box_cox.rds'))
