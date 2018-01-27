@@ -30,3 +30,4 @@ vignettes/*.pdf
 .Rproj.user
 # Packrat stuff
 packrat/lib*/
+packrat/src/*
