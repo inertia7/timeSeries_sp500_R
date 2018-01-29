@@ -21,6 +21,23 @@ library(docstring)
 library(readr)
 library(here)
 
+
+# NOTE: For more information on helper functions use ?function_name
+# LOAD DATA
+data_master <- read.csv(here("data", "data_master_1.csv"))
+
+data_master$year <- NULL
+data_master$month <- NULL
+data_master$year <- NULL
+data_master$trillion <- NULL
+data_master$billion <- NULL
+
+create_ts <- function(x){
+  ts(x, start = c(1995, 1), frequency = 12)
+}
+
+data_master <- lapply(data_master, create_ts)
+
 # Contains functions that create ggplot2 plots of integral time series plots
 # use ?function_name for more details.
 
@@ -54,9 +71,7 @@ plot_time_series <- function(ts_object, ts_object_name){
               panel.background = element_rect(fill = "gray98"),
               axis.line.x = element_line(colour="gray"),
               axis.line.y = element_line(colour="gray")) +
-        labs(x = "Year", y = "Closing Values")  + 
-        scale_x_date(date_breaks = "1 year",
-                     date_labels = '%Y')
+        labs(x = "Year", y = "Closing Values") 
       return(tsPlot)
     }
   }
@@ -231,7 +246,8 @@ ggtsdiag_custom <- function(object, ts_object_name, gof.lag = 10,
 ###########################################################################################
 
 
-autoplot.forecast <- function(forecast, ts_object_name, ..., holdout=NaN){
+autoplot.forecast <- function(forecast, forc_name, ts_object_name, 
+                              ..., holdout=NaN){
   #' Plots Forecasted values for Time Series Models
   #'
   #' Borrowed from Drew Schmidt, but modified to fit our aesthetic appeal
@@ -276,7 +292,7 @@ autoplot.forecast <- function(forecast, ts_object_name, ..., holdout=NaN){
           axis.line.y   = element_line(colour="gray"),
           axis.line.x = element_line(colour="gray")) +
     labs(x = "Year", y = "Closing Values") +
-    ggtitle(sprintf('%s Forecast Plot of S&P 500', ts_object_name))
+    ggtitle(sprintf('%s Forecast Plot of %s', forc_name, ts_object_name))
 }
 
 ###########################################################################################

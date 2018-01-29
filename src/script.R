@@ -14,11 +14,10 @@ source(here("src",'helper_functions.R'))
 
 # NOTE: For more information on helper functions use ?function_name
 # LOAD DATA
-data_master <- read.csv(here("data", "data_master_1.csv"))
 attach(data_master)
 
 # EXPLORATORY ANALYSIS
-sp_500 <- ts(data_master$sp_500, start=c(1995, 1), freq=12)
+sp_500 <- data_master$sp_500
 
 # TESTS FOR STATIONARITY
 Box.test(sp_500, lag = 20, type = 'Ljung-Box')
@@ -124,7 +123,8 @@ if (is.null(here("models", 'arima.rds'))){
 
 forSp500 <- autoplot(fit_arima, 
                      holdout = sp500_test, 
-                     ts_object_name = 'ARIMA')
+                     forc_name = 'ARIMA', 
+                     ts_object_name = 'S&P 500')
 
 forSp500
 ggplotly(forSp500)
@@ -144,7 +144,8 @@ if (is.null(here("models", 'box_cox.rds'))){
 
 s <- autoplot(fit_BC, 
               holdout = sp500_test,
-              ts_object_name = 'Box-Cox Transformation')
+              forc_name = 'Box-Cox Transformation', 
+              ts_object_name = 'S&P 500')
 s
 ggplotly(s)
 
@@ -158,7 +159,8 @@ if (is.null(here("models", 'ets.rds'))){
 
 h <- autoplot(fit_ets, 
               holdout=sp500_test,
-              ts_object_name = "Exponential Smoothing")
+              forc_name = 'Exponential Smoothing',
+              ts_object_name = 'S&P 500')
 
 h
 ggplotly(h)  
@@ -173,7 +175,8 @@ if (is.null(here("models", 'meanf.rds'))){
 
 e <- autoplot(fit_meanf, 
               holdout = sp500_test,
-              ts_object_name = 'Mean Forecast') 
+              forc_name = 'Mean',
+              ts_object_name = 'S&P 500') 
 e
 ggplotly(e)
 
@@ -187,7 +190,8 @@ if (is.null(here("models", 'naive.rds'))){
 
 f <- autoplot(fit_naive, 
               holdout = sp500_test,
-              ts_object_name = "Naive Forecast") 
+              forc_name = 'Naive Forecast',
+              ts_object_name = 'S&P 500') 
 f
 ggplotly(f)
 
@@ -201,7 +205,8 @@ if (is.null(here("models", 'snaive.rds'))){
 
 g <- autoplot(fit_snaive, 
               holdout = sp500_test,
-              ts_object_name = "Seasonal Naive")
+              forc_name = 'Seasonal Naive',
+              ts_object_name = 'S&P 500')
 g
 ggplotly(g)  
 
@@ -216,7 +221,8 @@ if (is.null(here("models", 'box_cox.rds'))){
 
 n <- autoplot(fit_net, 
               holdout = sp500_test,
-              ts_object_name = 'Neural Networks Forecast')
+              forc_name = 'Neural Networks',
+              ts_object_name = 'S&P 500')
 n
 ggplotly(s)
 
