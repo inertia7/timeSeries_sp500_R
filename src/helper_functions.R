@@ -257,7 +257,8 @@ autoplot.forecast <- function(forecast, forc_name, ts_object_name,
   #' reflects the forecasted plot
   #'
   #' @param forecast forecasted values created using \code{forecast} function
-  #' @param ts_object_name preferred title of plot
+  #' @param forc_name name of forecasted method included in title
+  #' @param ts_object_name time series name included in title
   #' @param holdout time series object that contains actual values that can be
   #' compared to the forecasted values
 

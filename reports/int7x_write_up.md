@@ -326,8 +326,9 @@ Next we use the `forecast` function, `ggplot2` and `plotly` to visualize the pre
 Next we create the autoplot visualization.
 
 	autoplot(fit_arima,
-		holdout = sp500_test,
-		ts_object_name = 'ARIMA')
+		holdout = sp500_test, 
+		forc_name = 'ARIMA', 
+		ts_object_name = 'S&P 500')
 
 <iframe width="100%" height=415  frameborder="0" scrolling="no" src="https://plot.ly/~raviolli77/41.embed?autosize=True&width=90%&height=100%"></iframe>
 
@@ -340,7 +341,7 @@ So in this more interactive iteration of our project we included other forecasti
 ## Box-Cox Forecast
 
 
-*Box-Cox transformations* are generally used to transform non-normally distributed data to become approximately normal! Although we do not think this an appropriate transformation for our data set, we still included it because it's a useful transformation to do especially since most real time data is not approximately *normally distributed*.
+*Box-Cox transformations* are generally used to transform non-normally distributed data to become approximately normal! Although we do not think this an appropriate transformation for our data set, it is still included in our analysis because it's a useful transformation to do especially since most real time data is not approximately *normally distributed*.
 
 	lambda <- BoxCox.lambda(sp500_TR)
 	fit_sp500_BC <- ar(BoxCox(sp500_TR,lambda))
@@ -349,14 +350,15 @@ So in this more interactive iteration of our project we included other forecasti
 Now that we have created the forecast object we plot the prediction!
 
 
-	s <- autoplot(fit_BC, 
-              	holdout = sp500_test,
-              	ts_object_name = 'Box-Cox Transformation')
+	autoplot(fit_BC, 
+		holdout = sp500_test,
+		forc_name = 'Box-Cox Transformation', 
+		ts_object_name = 'S&P 500')
 	
 
 <iframe width="100%" height=415  frameborder="0" scrolling="no" src="https://plot.ly/~raviolli77/51.embed?autosize=True&width=90%&height=100%"></iframe>
 
-The prediction shows a downward trend clearly not exactly following the path of the actual values. 
+The prediction shows a downward trend whereas the actual values show upward trend.  
 
 ## Exponential Smoothing Forecast
 
@@ -366,8 +368,9 @@ For those interested when outputting the summary for the `ets` model we receive 
 
 	fit_ets <- forecast(ets(sp500_training), h = 36)
 	autoplot(fit_ets, 
-              holdout=sp500_test,
-              ts_object_name = "Exponential Smoothing")
+		holdout=sp500_test,
+		forc_name = 'Exponential Smoothing',
+		ts_object_name = 'S&P 500')
 
 <iframe width="100%" height=415  frameborder="0" scrolling="no" src="https://plot.ly/~raviolli77/49.embed?autosize=True&width=90%&height=100%"></iframe>
 
@@ -380,21 +383,23 @@ The forecasting methods are useful to keep in mind because you might conclude th
 
 	fit_meanf <- meanf(sp500_training, h = 36)
 	autoplot(fit_meanf, 
-              holdout = sp500_test,
-              ts_object_name = 'Mean Forecast') 
+		holdout = sp500_test,
+		forc_name = 'Mean',
+		ts_object_name = 'S&P 500') 
 
 <iframe width="100%" height=415  frameborder="0" scrolling="no" src="https://plot.ly/~raviolli77/43.embed?autosize=True&width=90%&height=100%"></iframe>
 
-...
+As we can see due to the non-stationarity and volatility of our data this model performs very poorly. 
 
 ## Naive Forecast
 
-From the naive description I gathered that the *naive forecasting* method returns an *ARIMA(0, 1, 0) with random walk* model that is applied to our time series object. Important to note that Hydman described this forecasting method as being effective in financial time series objects!
+The *naive forecasting* method returns an *ARIMA(0, 1, 0) with random walk* model that is applied to our time series object. Important to note that Hyndman described this forecasting method as being effective in financial time series objects, and that the forecasting method "... all [...] values are set to be $$y_T$$, where $$y_T$$ is the last observed value"
 
 	fit_naive <- naive(sp500_training, h = 36)
 	autoplot(fit_naive, 
-              holdout = sp500_test,
-              ts_object_name = "Naive Forecast")
+		holdout = sp500_test,
+		forc_name = 'Naive Forecast',
+		ts_object_name = 'S&P 500') 
 
 <iframe width="100%" height=415  frameborder="0" scrolling="no" src="https://plot.ly/~raviolli77/45.embed?autosize=True&width=90%&height=100%"></iframe>
 
@@ -405,22 +410,24 @@ For the `snaive()` method it follows the same principles as the *naive* method, 
 
 	fit_snaive <- snaive(sp500_training, h = 36)
 	autoplot(fit_snaive, 
-              holdout = sp500_test,
-              ts_object_name = "Seasonal Naive")
+		holdout = sp500_test,
+		forc_name = 'Seasonal Naive',
+		ts_object_name = 'S&P 500')
 
 <iframe width="100%" height=415  frameborder="0" scrolling="no" src="//plot.ly/~raviolli77/47.embed?autosize=True&width=90%&height=100%"></iframe>
 
 
 ## Neural Networks
-More on this model later. 
+For neural networks in the context of time series, each lagged value can be thought of as an input for the network (more specifically a *feedforward neural network*). Our model produced was a **NNAR(2, 1, 2)[12]**, which has 3 inputs including a seasonal input with 2 hidden layers. Important to note that models can sometimes be translated to ARIMA equivalents, but don't have restrictions on parameters to ensure stationarity (for more information [see here](https://www.otexts.org/fpp/9/3)). 
 
 Now we plot:
 
 	fit_sp500_net <- nnetar(sp500_training, lambda = lambda) # Using BC lambda
 	fit_net <- forecast(fit_sp500_net, h = 36, PI = TRUE)
 	autoplot(fit_net, 
-              holdout = sp500_test,
-              ts_object_name = 'Neural Networks Forecast')
+		holdout = sp500_test,
+		forc_name = 'Neural Networks',
+		ts_object_name = 'S&P 500')
 
 
 <iframe width="100%" height=415 frameborder="0" scrolling="no" src="//plot.ly/~raviolli77/130.embed?autosize=True&width=90%&height=100%"></iframe>
