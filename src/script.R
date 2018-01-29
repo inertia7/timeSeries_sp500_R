@@ -190,7 +190,7 @@ if (is.null(here("models", 'naive.rds'))){
 
 f <- autoplot(fit_naive, 
               holdout = sp500_test,
-              forc_name = 'Naive Forecast',
+              forc_name = 'Naive',
               ts_object_name = 'S&P 500') 
 f
 ggplotly(f)
