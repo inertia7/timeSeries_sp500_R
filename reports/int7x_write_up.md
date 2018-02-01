@@ -62,7 +62,7 @@ Here we use our function called `plot_time_series`, which does as its name sugge
 	plot_time_series(sp_500, 'S&P 500')
 
 
-<iframe width="100%" height=415  frameborder="0" scrolling="no" src=https://plot.ly/~raviolli77/55.embed?autosize=True&width=90%&height=100%></iframe>
+<iframe width="100%" height=500  frameborder="0" scrolling="no" src="https://raviolli77.github.io/sp_full.html"></iframe>
 
 Before we begin any analysis, we will be splitting the data to remove 2015 to use as our test set.
 
@@ -86,7 +86,7 @@ we start our analysis by plotting our time series object to give us a visual bas
 
 	 plot_time_series(sp500_training, 'S&P 500')
 
-<iframe width="100%" height=415  frameborder="0" scrolling="no" src="https://plot.ly/~raviolli77/31.embed"></iframe>
+<iframe width="100%" height=500  frameborder="0" scrolling="no" src="https://raviolli77.github.io/sp_training.html"></iframe>
 
 We can quickly see that our time-series has instances of both positive and negative trend. Overall, it is very volatile, which tells us that we will have transform the data in order for the **Box-Jenkins Methodology** to predict with better accuracy.
 
@@ -127,7 +127,7 @@ Beyond understanding the *trend* of our time-series, we want to further understa
 
 	plot_decomp(sp500_training, 'S&P 500')
 
-<iframe width="100%" height=600  frameborder="0" scrolling="no" src="https://plot.ly/~raviolli77/35.embed?autosize=True&width=90%&height=100%"></iframe>
+<iframe width="100%" height=700  frameborder="0" scrolling="no" src="https://raviolli77.github.io/sp_decomp.html"></iframe>
 
 The trend line already shows us what we know and we can see that there might be some seasonality in our time series object.
 
@@ -147,7 +147,7 @@ Going back to our data set we run the same function to grab a visual diagnosis f
 
 	plot_seasonal(sp500_training, 'S&P')
 
-<iframe width="100%" height=415  frameborder="0" scrolling="no" src="https://plot.ly/~raviolli77/53.embed?autosize=True&width=90%&height=100%"></iframe>
+<iframe width="100%" height=700  frameborder="0" scrolling="no" src="https://raviolli77.github.io/sp_seasonal.html"></iframe>
 
 However upon inspection there is no indication of any seasonal patterns outside of the later years showing upward trend, thus another indication towards *non-stationarity*.
 
@@ -181,7 +181,7 @@ Next we plot our transformed time-series.
 
 	plot_time_series(tsDiff, 'First Difference')
 
-<iframe width="100%" height=415  frameborder="0" scrolling="no" src="https://plot.ly/~raviolli77/37.embed?autosize=True&width=90%&height=100%"></iframe>
+<iframe width="100%" height=500  frameborder="0" scrolling="no" src="https://raviolli77.github.io/sp_diff.html"></iframe>
 
 This plot suggests that our working data is stationary. We want to confirm this running an *ACF* and *PACF* diagnostics over this data to find our if we can proceed to estimating a model.
 
@@ -229,7 +229,7 @@ Now that we have a stationary time series object, we again make a seasonal plot 
 
 	plot_seasonal(tsDiff, 'First Difference of S&P 500')
 
-<iframe width="100%" height=415  frameborder="0" scrolling="no" src="https://plot.ly/~raviolli77/57.embed?autosize=True&width=90%&height=100%"></iframe>
+<iframe width="100%" height=700  frameborder="0" scrolling="no" src="https://raviolli77.github.io/sp_diff_seasonal.html"></iframe>
 
 Just to reiterate, this plot shows us there is no clear seasonal pattern. Therefore, we can continue and assume that our differenced time series object meets the criteria for the *Box-Jenkins model* estimation.
 
@@ -298,7 +298,7 @@ A histogram gives us another visualization of the normal distribution of our res
 	residFit
 	ggplotly(residFit)
 
-<iframe width="100%" height=415  frameborder="0" scrolling="no" src="https://plot.ly/~raviolli77/39.embed?autosize=True&width=90%&height=100%"></iframe>
+<img src="https://i.imgur.com/fDwVTzn.png">
 
 Although not perfect we can see that the residuals do display a *normal distribution*. The outliers may be explained by the *2008 financial crisis*.
 
@@ -330,7 +330,7 @@ Next we create the autoplot visualization.
 		forc_name = 'ARIMA', 
 		ts_object_name = 'S&P 500')
 
-<iframe width="100%" height=415  frameborder="0" scrolling="no" src="https://plot.ly/~raviolli77/41.embed?autosize=True&width=90%&height=100%"></iframe>
+<iframe width="100%" height=550  frameborder="0" scrolling="no" src="https://raviolli77.github.io/sp_forc_arima.html"></iframe>
 
 We can see that the model performs well and within the 80% and 95% confidence intervals. You can forecast values even further into the future by tuning the appropriate parameters. Please not that this forecast project is for educational purposes and **we do not recommend investing by using these predictions** - remember that the stock market is very volatile.
 
@@ -356,7 +356,7 @@ Now that we have created the forecast object we plot the prediction!
 		ts_object_name = 'S&P 500')
 	
 
-<iframe width="100%" height=415  frameborder="0" scrolling="no" src="https://plot.ly/~raviolli77/51.embed?autosize=True&width=90%&height=100%"></iframe>
+<iframe width="100%" height=550  frameborder="0" scrolling="no" src="https://raviolli77.github.io/sp_forc_box.html"></iframe>
 
 The prediction shows a downward trend whereas the actual values show upward trend.  
 
@@ -372,7 +372,7 @@ For those interested when outputting the summary for the `ets` model we receive 
 		forc_name = 'Exponential Smoothing',
 		ts_object_name = 'S&P 500')
 
-<iframe width="100%" height=415  frameborder="0" scrolling="no" src="https://plot.ly/~raviolli77/49.embed?autosize=True&width=90%&height=100%"></iframe>
+<iframe width="100%" height=550  frameborder="0" scrolling="no" src="https://raviolli77.github.io/sp_forc_ets.html"></iframe>
 
 Interesting that *Exponential Smoothing's* prediction is still within both prediction intervals, although the bands are noticeably larger than our *ARIMA*, it will be interesting to see more future predictions for this promising model. 
 
@@ -387,7 +387,7 @@ The forecasting methods are useful to keep in mind because you might conclude th
 		forc_name = 'Mean',
 		ts_object_name = 'S&P 500') 
 
-<iframe width="100%" height=415  frameborder="0" scrolling="no" src="https://plot.ly/~raviolli77/43.embed?autosize=True&width=90%&height=100%"></iframe>
+<iframe width="100%" height=550  frameborder="0" scrolling="no" src="https://raviolli77.github.io/sp_forc_meanf.html"></iframe>
 
 As we can see due to the non-stationarity and volatility of our data this model performs very poorly. 
 
@@ -401,7 +401,7 @@ The *naive forecasting* method returns an *ARIMA(0, 1, 0) with random walk* mode
 		forc_name = 'Naive Forecast',
 		ts_object_name = 'S&P 500') 
 
-<iframe width="100%" height=415  frameborder="0" scrolling="no" src="https://plot.ly/~raviolli77/45.embed?autosize=True&width=90%&height=100%"></iframe>
+<iframe width="100%" height=550  frameborder="0" scrolling="no" src="https://raviolli77.github.io/sp_forc_naive.html"></iframe>
 
 ## Seasonal Naive Forecast
 
@@ -414,7 +414,7 @@ For the `snaive()` method it follows the same principles as the *naive* method, 
 		forc_name = 'Seasonal Naive',
 		ts_object_name = 'S&P 500')
 
-<iframe width="100%" height=415  frameborder="0" scrolling="no" src="//plot.ly/~raviolli77/47.embed?autosize=True&width=90%&height=100%"></iframe>
+<iframe width="100%" height=550  frameborder="0" scrolling="no" src="https://raviolli77.github.io/sp_forc_snaive.html"></iframe>
 
 
 ## Neural Networks
@@ -430,7 +430,7 @@ Now we plot:
 		ts_object_name = 'S&P 500')
 
 
-<iframe width="100%" height=415 frameborder="0" scrolling="no" src="//plot.ly/~raviolli77/130.embed?autosize=True&width=90%&height=100%"></iframe>
+<iframe width="100%" height=550 frameborder="0" scrolling="no" src="https://raviolli77.github.io/sp_forc_nn.html"></iframe>
 
 
 # Conclusions
@@ -449,15 +449,7 @@ We run the accuracy function on all the forecast methods and we check which perf
 
 ### Terminal Output
 
-| Model | ME | RMSE | MAE | MPE | MAPE | MASE | ACF1 | Theil's U |
-|-------|-------|-------|-------|-------|-------|-------|-------|
-| ARIMA | 73.029 | 165.054 | 119.31 |  2.761 | 5.089 | 0.629 |  0.866 | 2.877 | 
-| Box-Cox Transformation | 606.664 | 712.993 | 606.664 | 26.294 | 26.294 | 3.200 | 0.903 | 12.826 | 
-| Exponential Smoothing | 97.585 | 221.442 | 155.624 | 3.668 | 6.586 | 0.821 | 0.889 | 3.842 | 
-| Mean Forecast Method | 1023.667 | 1043.815 | 1023.667 | 45.944 | 45.944 | 5.400 | 0.887 | 19.516 |
-| Naive Forecast Method | 159.482 | 259.020 | 183.291 | 6.472 | 7.690 | 0.967 | 0.887 | 4.476 | 
-| Seasonal Naive Forecast Method | 278.533 | 339.903 | 280.988 | 12.001 | 12.127 | 1.482 | 0.898 | 6.032 | 
-| Neural Network | 397.059 | 579.195 | 407.790  | 16.483 | 17.028 | 2.151 | 0.907 | 10.049 | 
+<iframe src="https://cdn.rawgit.com/raviolli77/bbef474cb6a88f715635ce790bd6f662/raw/de7a39633e447da38c03df1d0a78992c5780ba95/accuracy_metrics_time_series.html" width="800" height="350" frameborder="0"></iframe>
 
 As we can see from our metrics relating to the 3 year test set, the *ARIMA* modeled performed better with *Exponential Smoothing* peforming well. Through the forecast plots however we saw that *Exponential Smoothing* is still within the prediction intervals, so its a close call. 
 
@@ -480,7 +472,7 @@ Once we do this any values that are volatile will visually appear, but heads up 
 	squared_res_fit <- fit$residuals^2
 	plot_time_series(squared_res_fit, "Squared Residuals")
 
-<iframe width="100%" height=415  frameborder="0" scrolling="no" src="https://plot.ly/~raviolli77/59.embed?autosize=True&width=90%&height=100%"></iframe>
+<iframe width="100%" height=550  frameborder="0" scrolling="no" src="https://raviolli77.github.io/garch_resid.html"></iframe>
 
 So the next step is to plot the *ACF* and *PACF* of the squared residuals to see if *GARCH* modeling is appropriate!
 

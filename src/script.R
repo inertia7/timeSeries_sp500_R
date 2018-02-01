@@ -2,10 +2,8 @@
 # Project and visuals can be found at 
 # https://www.inertia7.com/projects/8
 
-# LOAD YOUR PACKAGES
-library(here)
 # Rproj should be created before running script
-here()
+here::here()
 # Output should be:
 # "/working/directory/timeSeries_sp500_R"
 
@@ -163,7 +161,7 @@ h <- autoplot(fit_ets,
               ts_object_name = 'S&P 500')
 
 h
-ggplotly(h)  
+ggplotly(h) 
 
 # MEAN FORECAST METHOD
 fit_meanf <- meanf(sp500_training, h = 36)
@@ -224,7 +222,7 @@ n <- autoplot(fit_net,
               forc_name = 'Neural Networks',
               ts_object_name = 'S&P 500')
 n
-ggplotly(s)
+ggplotly(n)
 
 # COMPARE FORECAST ACCURACIES ACROSS DIFFERENT METHODS USED
 round(accuracy(fit_arima, sp500_test), 3)
@@ -249,6 +247,7 @@ sq_res <- plot_time_series(squared_res_fit, "Squared Residuals")
 
 sq_res
 ggplotly(sq_res)
+
 
 # ACF AND PACF PLOT FOR SQUARED RESIDUALS 
 plot_acf_pacf(squared_res_fit, 'S&P 500 Residuals^2')

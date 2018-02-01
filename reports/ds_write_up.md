@@ -312,15 +312,7 @@ Here we use the accuracy method including the test set to give us metrics for al
 
 Here are the results for the test set (the function will return both training and test set metrics, but we're only concerned with the test set metrics).
 
-| Model | ME | RMSE | MAE | MPE | MAPE | MASE | ACF1 | Theil's U |
-|-------|-------|-------|-------|-------|-------|-------|-------|
-| ARIMA | -5.670 | 55.213 | 45.611 | -0.331 | 2.249 | 0.241 |  0.695 | 1.323 |
-| Box-Cox Transformation | 213.268 | 235.805 | 213.268 | 10.388 | 10.388 | 1.125 | 0.601 | 5.593 |
-| Exponential Smoothing | -45.203 | 67.125 | 46.160 | -2.256 | 2.302 | 0.244 | 0.650 | 1.603 |
-| Mean Forecast Method | 866.998 | 868.128 | 866.998 | 42.255 | 42.255 | 4.574 | 0.546 | 19.708 |
-| Naive Forecast Method | 2.814 | 44.356 | 37.086 | 0.090 | 1.823 | 0.196 | 0.546 | 1.051 |
-| Seasonal Naive Forecast Method | 121.864 | 154.322 | 129.230 | 5.883 |  6.262 | 0.682 | 0.770 | 3.32 |
-| Neural Network | 9.657 | 43.853 | 38.108 | 0.431 | 1.867 | 0.201 | 0.420 | 1.03 |
+<iframe src="https://cdn.rawgit.com/raviolli77/bbef474cb6a88f715635ce790bd6f662/raw/de7a39633e447da38c03df1d0a78992c5780ba95/accuracy_metrics_time_series.html" width="800" height="350" frameborder="0"></iframe>
 
 Surprisingly other models performed better on the test set than the ARIMA model. This could be a result of overfitting since our test set was really small, but upon iteratively working on this project, we have been able to expand the test set to include data up until 2017 on the repo and inertia7 project.
 
