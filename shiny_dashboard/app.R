@@ -1,4 +1,4 @@
-#
+x #
 # This is a Shiny web application. You can run the application by clicking
 # the 'Run App' button above.
 #
@@ -75,33 +75,40 @@ ui <- dashboardPage(
 server <- function(input, output) {
   output$forecast_plots <- renderPlotly({
     if (input$forecast == "fit_arima") {
-      autoplot(fit_arima,
-                            holdout = sp500_test,
-                            ts_object_name = 'ARIMA')
+      autoplot(fit_arima, 
+                     holdout = sp500_test, 
+                     forc_name = 'ARIMA', 
+                     ts_object_name = 'S&P 500')
     } else if (input$forecast == "fit_BC") {
-      autoplot(fit_BC,
-               holdout = sp500_test,
-               ts_object_name = 'Box-Cox Transformation')
+      autoplot(fit_BC, 
+              holdout = sp500_test,
+              forc_name = 'Box-Cox Transformation', 
+              ts_object_name = 'S&P 500')
     } else if (input$forecast == "fit_ets") {
-      autoplot(fit_ets,
-               holdout=sp500_test,
-               ts_object_name = "Exponential Smoothing")
+      autoplot(fit_ets, 
+              holdout=sp500_test,
+              forc_name = 'Exponential Smoothing',
+              ts_object_name = 'S&P 500')
     } else if (input$forecast == "fit_meanf") {
-      autoplot(fit_meanf,
-               holdout = sp500_test,
-               ts_object_name = 'Mean')
+      autoplot(fit_meanf, 
+              holdout = sp500_test,
+              forc_name = 'Mean',
+              ts_object_name = 'S&P 500') 
     } else if (input$forecast == "fit_naive") {
-      autoplot(fit_naive,
-               holdout = sp500_test,
-               ts_object_name = "Naive")
+      autoplot(fit_naive, 
+              holdout = sp500_test,
+              forc_name = 'Naive',
+              ts_object_name = 'S&P 500')
     } else if (input$forecast == "fit_snaive") {
-      autoplot(fit_snaive,
-               holdout = sp500_test,
-               ts_object_name = "Seasonal Naive")
+      autoplot(fit_snaive, 
+              holdout = sp500_test,
+              forc_name = 'Seasonal Naive',
+              ts_object_name = 'S&P 500')
     } else if (input$forecast == "fit_net") {
-      autoplot(fit_net,
-               holdout = sp500_test,
-               ts_object_name = 'Neural Networks')
+      autoplot(fit_net, 
+              holdout = sp500_test,
+              forc_name = 'Neural Networks',
+              ts_object_name = 'S&P 500')
     }
   })
   output$diag_plots <- renderPlot({

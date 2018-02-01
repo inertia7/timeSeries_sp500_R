@@ -229,7 +229,7 @@ Now that we have a stationary time series object, we again make a seasonal plot 
 
 	plot_seasonal(tsDiff, 'First Difference of S&P 500')
 
-<iframe width="100%" height=700  frameborder="0" scrolling="no" src="https://raviolli77.github.io/sp_diff_seasonal.html"></iframe>
+<iframez width="100%" height=700  frameborder="0" scrolling="no" src="https://raviolli77.github.io/sp_diff_seasonal.html"></iframe>
 
 Just to reiterate, this plot shows us there is no clear seasonal pattern. Therefore, we can continue and assume that our differenced time series object meets the criteria for the *Box-Jenkins model* estimation.
 
@@ -449,7 +449,7 @@ We run the accuracy function on all the forecast methods and we check which perf
 
 ### Terminal Output
 
-<iframe src="https://cdn.rawgit.com/raviolli77/bbef474cb6a88f715635ce790bd6f662/raw/de7a39633e447da38c03df1d0a78992c5780ba95/accuracy_metrics_time_series.html" width="800" height="350" frameborder="0"></iframe>
+<iframe width="100%" src="https://cdn.rawgit.com/raviolli77/bbef474cb6a88f715635ce790bd6f662/raw/de7a39633e447da38c03df1d0a78992c5780ba95/accuracy_metrics_time_series.html" width="800" height="350" frameborder="0"></iframe>
 
 As we can see from our metrics relating to the 3 year test set, the *ARIMA* modeled performed better with *Exponential Smoothing* peforming well. Through the forecast plots however we saw that *Exponential Smoothing* is still within the prediction intervals, so its a close call. 
 
