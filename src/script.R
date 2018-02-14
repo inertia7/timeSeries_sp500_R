@@ -8,7 +8,7 @@ here::here()
 # "/working/directory/timeSeries_sp500_R"
 
 # Source the helper functions script to load custom function
-source(here("src",'helper_functions.R'))
+source(here::here("src",'helper_functions.R'))
 
 # NOTE: For more information on helper functions use ?function_name
 # LOAD DATA
