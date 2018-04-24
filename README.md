@@ -3,6 +3,7 @@
 (Project can be found at: https://www.inertia7.com/projects/8)
 
 Dashboard found [here](https://raviolli77.shinyapps.io/forecast_dashboard/)
+Due to dashboard hitting too many views if link doesn't work, back up is [here](http://ravishinydashboard.com/shiny/timeSeries_sp500_R/shiny_dashboard/)
 
 # Table of Contents
 * [Abstract](#Abstract)
